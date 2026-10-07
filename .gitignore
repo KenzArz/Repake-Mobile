@@ -1,0 +1,43 @@
+.dart_tool/
+.gradle/
+build/
+.pub/
+.pub-cache/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+coverage/
+*.apk
+*.ipa
+**/GeneratedPluginRegistrant.*
+
+# Machine-specific Android configuration and signing credentials.
+/android/local.properties
+/android/key.properties
+*.jks
+*.keystore
+
+# Generated iOS files and local Xcode state.
+/ios/Flutter/.last_build_id
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/ephemeral/
+/ios/Flutter/flutter_export_environment.sh
+/ios/ServiceDefinitions.json
+**/Pods/
+**/xcuserdata/
+*.xcuserstate
+
+# IDE files.
+.idea/
+*.iml
+
+# OS-generated files.
+.DS_Store
+Thumbs.db
+
+.vscode
+
+# Local environment files. Keep example templates versioned.
+.env
+.env.*
+!.env.example
