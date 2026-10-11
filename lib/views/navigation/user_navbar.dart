@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectrepake/views/product/add_product_screen.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
@@ -22,7 +23,7 @@ class _UserNavbarState extends State<UserNavbar> {
   static const _pages = <Widget>[
     HomeScreen(),
     _PlaceholderPage('Favorit'),
-    _PlaceholderPage('Jual'),
+    AddProductScreen(),
     _PlaceholderPage('Chat'),
   ];
 
