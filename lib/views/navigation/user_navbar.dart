@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../chat/chat_list_screen.dart';
 import '../home/home_screen.dart';
 import '../product/add_product_screen.dart';
 import 'main_shell.dart';
@@ -36,12 +37,12 @@ class UserNavbar extends StatelessWidget {
         ),
       ],
       // Halaman untuk tiap menu.
-      // TODO: ganti placeholder dengan layar asli (favorit, ChatListScreen).
+      // TODO: ganti placeholder Favorit dengan layar asli.
       pages: [
         HomeScreen(),
         PlaceholderPage('Favorit'),
         AddProductScreen(),
-        PlaceholderPage('Chat'),
+        ChatListScreen(),
       ],
     );
   }

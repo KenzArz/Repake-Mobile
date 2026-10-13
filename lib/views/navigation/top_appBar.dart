@@ -7,6 +7,7 @@ import '../../theme/app_text_styles.dart';
 /// Appbar Repake dengan 2 kondisi:
 /// - Expanded : logo + avatar, search bar di bawahnya (saat di paling atas)
 /// - Collapsed: logo + ikon search + avatar (saat di-scroll ke bawah)
+/// - Simple: logo + avatar saja (tanpa search) jika showSearch = false
 ///
 /// Perilaku:
 /// - Scroll ke bawah -> collapse (walau sedang mengetik; keyboard ditutup).
@@ -21,6 +22,7 @@ class TopAppBar extends StatefulWidget {
     this.onSearchSubmitted,
     this.onProfileTap,
     this.collapseOffset = 24,
+    this.showSearch = true, // Parameter baru: default true
   });
 
   /// Controller dari ListView/ScrollView di bawah appbar.
@@ -31,6 +33,9 @@ class TopAppBar extends StatefulWidget {
 
   /// Seberapa jauh scroll (px) sebelum appbar mengecil.
   final double collapseOffset;
+  
+  /// Tampilkan search bar atau tidak. Jika false, hanya logo + profile.
+  final bool showSearch;
 
   @override
   State<TopAppBar> createState() => _TopAppBarState();
@@ -129,38 +134,42 @@ class _TopAppBarState extends State<TopAppBar> {
                 Expanded(
                   child: Text('Repake', style: AppTextStyles.h3()),
                 ),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: _expanded
-                      ? const SizedBox(key: ValueKey('no-search'))
-                      : IconButton(
-                          key: const ValueKey('search-icon'),
-                          onPressed: _openSearch,
-                          icon: const Icon(Icons.search),
-                          color: AppColors.textPrimary,
-                          tooltip: 'Cari',
-                        ),
-                ),
+                // Tampilkan search icon hanya jika showSearch = true
+                if (widget.showSearch)
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: _expanded
+                        ? const SizedBox(key: ValueKey('no-search'))
+                        : IconButton(
+                            key: const ValueKey('search-icon'),
+                            onPressed: _openSearch,
+                            icon: const Icon(Icons.search),
+                            color: AppColors.textPrimary,
+                            tooltip: 'Cari',
+                          ),
+                  ),
                 const SizedBox(width: 4),
                 _ProfileButton(onTap: widget.onProfileTap),
               ],
             ),
           ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-            alignment: Alignment.topCenter,
-            child: _expanded
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: _SearchField(
-                      controller: widget.searchController,
-                      focusNode: _focusNode,
-                      onSubmitted: widget.onSearchSubmitted,
-                    ),
-                  )
-                : const SizedBox(width: double.infinity),
-          ),
+          // Search field hanya ditampilkan jika showSearch = true
+          if (widget.showSearch)
+            AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+              alignment: Alignment.topCenter,
+              child: _expanded
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: _SearchField(
+                        controller: widget.searchController,
+                        focusNode: _focusNode,
+                        onSubmitted: widget.onSearchSubmitted,
+                      ),
+                    )
+                  : const SizedBox(width: double.infinity),
+            ),
         ],
       ),
     );

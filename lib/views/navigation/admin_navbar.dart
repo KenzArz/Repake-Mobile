@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:projectrepake/views/product/add_product_screen.dart';
 
 import '../admin/admin_dashboard_screen.dart';
+import '../chat/chat_list_screen.dart';
 import '../home/home_screen.dart';
 import 'main_shell.dart';
 
-/// Navbar untuk Admin: Home, Dashboard, Favorite, Chat.
-/// Admin tidak punya menu "Jual". Ubah daftar di bawah kalau ingin menambah
-/// atau mengurangi menu.
+/// Navbar untuk Admin: Home, Dashboard, Favorite, Jual, Chat.
+/// Ubah daftar di bawah kalau ingin menambah atau mengurangi menu.
 class AdminNavbar extends StatelessWidget {
   const AdminNavbar({super.key});
 
@@ -46,7 +46,7 @@ class AdminNavbar extends StatelessWidget {
         AdminDashboardScreen(),
         PlaceholderPage('Favorit'),
         AddProductScreen(),
-        PlaceholderPage('Chat'),
+        ChatListScreen(),
       ],
     );
   }
