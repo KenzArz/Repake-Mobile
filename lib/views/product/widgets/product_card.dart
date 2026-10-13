@@ -224,7 +224,9 @@ class _ImageWithOverlay extends StatelessWidget {
                   child: Icon(
                     product.isFavorite ? Icons.favorite : Icons.favorite_border,
                     size: 20,
-                    color: product.isFavorite ? AppColors.lime : Colors.white,
+                    color: product.isFavorite
+                        ? AppColors.lime
+                        : AppColors.textOnDark,
                   ),
                 ),
               ),

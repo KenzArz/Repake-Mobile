@@ -57,5 +57,9 @@ class AppColors {
   static const textSecondary = neutral600;
   static const textMuted = neutral500;
   static const textOnInverse = neutral50;
-  static const textOnDark = Color(0xFFFFFFFF); // Putih untuk text di atas dark background
+  static const textOnDark =
+      Color(0xFFFFFFFF); // Putih untuk text di atas dark background
+
+  // Additional colors
+  static const ratingYellow = Color(0xFFFFC107); // Star rating color
 }

@@ -42,8 +42,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late final ProductDetailController _controller;
   late final bool _isLocalController;
 
-  static const Color repakeLime = Color(0xFFC3E06D);
-
   @override
   void initState() {
     super.initState();
@@ -117,13 +115,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   void _openChatDialog() {
     final messageController = TextEditingController(
-      text: 'Halo kak, apakah barang "${_controller.product.title.replaceAll('\n', ' ')}" masih ada?',
+      text:
+          'Halo kak, apakah barang "${_controller.product.title.replaceAll('\n', ' ')}" masih ada?',
     );
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surfaceElevated,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -144,10 +143,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
-                        backgroundColor: repakeLime,
-                        child: Icon(
+                        backgroundColor: AppColors.lime,
+                        child: const Icon(
                           Icons.person,
                           size: 20,
                           color: AppColors.charcoal,
@@ -168,7 +167,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             'Online • Balas dalam beberapa menit',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey[600],
+                              color: AppColors.textSecondary,
                             ),
                           ),
                         ],
@@ -193,15 +192,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 decoration: InputDecoration(
                   hintText: 'Tulis pesan Anda...',
                   filled: true,
-                  fillColor: Colors.grey.shade50,
+                  fillColor: AppColors.neutral50,
                   contentPadding: const EdgeInsets.all(12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide(color: AppColors.neutral300),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide(color: AppColors.neutral300),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -215,7 +214,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 height: 48,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: repakeLime,
+                    backgroundColor: AppColors.lime,
                     foregroundColor: AppColors.charcoal,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -228,7 +227,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     Navigator.pop(ctx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('💬 Pesan berhasil dikirim ke ${_controller.product.sellerName}!'),
+                        content: Text(
+                            '💬 Pesan berhasil dikirim ke ${_controller.product.sellerName}!'),
                         backgroundColor: AppColors.charcoal,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
@@ -265,17 +265,20 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             child: const Text('Batal'),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorBase),
+            style:
+                ElevatedButton.styleFrom(backgroundColor: AppColors.errorBase),
             onPressed: () {
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Laporan Anda telah dikirim dan sedang ditinjau.'),
+                  content:
+                      Text('Laporan Anda telah dikirim dan sedang ditinjau.'),
                   behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            child: const Text('Laporkan', style: TextStyle(color: Colors.white)),
+            child: const Text('Laporkan',
+                style: TextStyle(color: AppColors.textOnDark)),
           ),
         ],
       ),
@@ -317,26 +320,31 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             // Konten Utama Produk (Galeri di kiri, Info di kanan jika Desktop)
                             Center(
                               child: ConstrainedBox(
-                                constraints: const BoxConstraints(maxWidth: 1200),
+                                constraints:
+                                    const BoxConstraints(maxWidth: 1200),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: isWide ? 32.0 : 16.0,
                                     vertical: 24.0,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       if (isWide)
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               flex: 5,
                                               child: ProductGallery(
                                                 height: 430,
                                                 images: _controller.images,
-                                                selectedIndex: _controller.selectedImageIndex,
-                                                onSelectIndex: _controller.selectImage,
+                                                selectedIndex: _controller
+                                                    .selectedImageIndex,
+                                                onSelectIndex:
+                                                    _controller.selectImage,
                                               ),
                                             ),
                                             const SizedBox(width: 36),
@@ -344,7 +352,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                               flex: 5,
                                               child: ProductInfoSection(
                                                 product: _controller.product,
-                                                offerController: _controller.offerController,
+                                                offerController:
+                                                    _controller.offerController,
                                                 onChatTap: _openChatDialog,
                                                 onSubmitOffer: _submitOffer,
                                                 onReportTap: _showReportDialog,
@@ -354,18 +363,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         )
                                       else
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             ProductGallery(
                                               height: 320,
                                               images: _controller.images,
-                                              selectedIndex: _controller.selectedImageIndex,
-                                              onSelectIndex: _controller.selectImage,
+                                              selectedIndex: _controller
+                                                  .selectedImageIndex,
+                                              onSelectIndex:
+                                                  _controller.selectImage,
                                             ),
                                             const SizedBox(height: 20),
                                             ProductInfoSection(
                                               product: _controller.product,
-                                              offerController: _controller.offerController,
+                                              offerController:
+                                                  _controller.offerController,
                                               onChatTap: _openChatDialog,
                                               onSubmitOffer: _submitOffer,
                                               onReportTap: _showReportDialog,
@@ -377,22 +390,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                                       // 3. Rekomendasi Produk Serupa (4 Kartu)
                                       SimilarProductsSection(
-                                        similarProducts: _controller.similarProducts,
+                                        similarProducts:
+                                            _controller.similarProducts,
                                         isWide: isWide,
                                         onProductTap: (item) {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ProductDetailPage(
+                                              builder: (context) =>
+                                                  ProductDetailPage(
                                                 product: item,
                                               ),
                                             ),
                                           );
                                         },
                                         onFavoriteTap: (item) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
-                                              content: Text('Disimpan ke Favorit'),
+                                              content:
+                                                  Text('Disimpan ke Favorit'),
                                               duration: Duration(seconds: 1),
                                             ),
                                           );
