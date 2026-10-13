@@ -22,16 +22,16 @@ class ProductDetailAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surfacePage,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(color: AppColors.neutral200, width: 1),
         ),
         boxShadow: [
           BoxShadow(
-            color: Color(0x0A000000),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/ProductModel.dart';
+import '../../theme/app_colors.dart';
 import '../product/product_detail.dart';
 
 /// Halaman Profil Penjual (Seller Profile Page).
@@ -22,7 +23,6 @@ class SellerProfilePage extends StatefulWidget {
 }
 
 class _SellerProfilePageState extends State<SellerProfilePage> {
-  static const Color repakeGreen = Color(0xFFC3E06D);
   bool _isFollowing = false;
 
   late final List<ProductModel> _sellerProducts = [
@@ -79,9 +79,9 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: AppColors.surfacePage,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surfaceElevated,
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black87),
@@ -118,7 +118,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
           children: [
             // Header info penjual
             Container(
-              color: Colors.white,
+              color: AppColors.surfaceElevated,
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
@@ -128,11 +128,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                         children: [
                           CircleAvatar(
                             radius: 36,
-                            backgroundColor: Colors.grey.shade300,
+                            backgroundColor: AppColors.neutral300,
                             child: const Icon(
                               Icons.person,
                               size: 40,
-                              color: Colors.white,
+                              color: AppColors.textOnDark,
                             ),
                           ),
                           Positioned(
@@ -142,10 +142,10 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               width: 14,
                               height: 14,
                               decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: AppColors.successBase,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: Colors.white,
+                                  color: AppColors.surfaceElevated,
                                   width: 2,
                                 ),
                               ),
@@ -170,7 +170,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 const SizedBox(width: 6),
                                 const Icon(
                                   Icons.verified,
-                                  color: Color(0xFF4C8B4A),
+                                  color: AppColors.successBase,
                                   size: 18,
                                 ),
                               ],
@@ -179,7 +179,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             Text(
                               '📍 ${widget.location} • Online 10 menit lalu',
                               style: TextStyle(
-                                color: Colors.grey.shade600,
+                                color: AppColors.textSecondary,
                                 fontSize: 13,
                               ),
                             ),
@@ -214,12 +214,12 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             backgroundColor: _isFollowing
-                                ? repakeGreen.withAlpha(50)
-                                : Colors.white,
+                                ? AppColors.lime.withValues(alpha: 0.2)
+                                : AppColors.surfaceElevated,
                             side: BorderSide(
                               color: _isFollowing
-                                  ? const Color(0xFF81973D)
-                                  : Colors.grey.shade400,
+                                  ? AppColors.lime700
+                                  : AppColors.neutral400,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -253,7 +253,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: repakeGreen,
+                            backgroundColor: AppColors.lime,
                             foregroundColor: Colors.black87,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -279,7 +279,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
+                      color: AppColors.neutral100,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
@@ -315,7 +315,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                     'Urutkan: Terbaru',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey.shade600,
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -349,9 +349,9 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.surfaceElevated,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(color: AppColors.neutral200),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -367,9 +367,9 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => Container(
                                 height: 120,
-                                color: Colors.grey.shade200,
+                                color: AppColors.neutral200,
                                 child: const Icon(Icons.image,
-                                    color: Colors.grey),
+                                    color: AppColors.neutral400),
                               ),
                             ),
                           ),
@@ -401,7 +401,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   item.condition,
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: Colors.grey.shade600,
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -437,7 +437,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
           label,
           style: TextStyle(
             fontSize: 11,
-            color: Colors.grey.shade600,
+            color: AppColors.textSecondary,
           ),
         ),
       ],
@@ -448,7 +448,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
     return Container(
       width: 1,
       height: 24,
-      color: Colors.grey.shade300,
+      color: AppColors.neutral300,
     );
   }
 
@@ -504,7 +504,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: repakeGreen,
+                  backgroundColor: AppColors.lime,
                   foregroundColor: Colors.black87,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),

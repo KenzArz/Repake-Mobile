@@ -23,9 +23,6 @@ class ProductInfoSection extends StatelessWidget {
   final VoidCallback onSubmitOffer;
   final VoidCallback onReportTap;
 
-  static const Color repakeLime = Color(0xFFC3E06D);
-  static const Color repakeChipBg = Color(0xFFE8EAE6);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -101,7 +98,7 @@ class ProductInfoSection extends StatelessWidget {
           height: 46,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: repakeLime,
+              backgroundColor: AppColors.lime,
               foregroundColor: AppColors.charcoal,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -148,7 +145,7 @@ class ProductInfoSection extends StatelessWidget {
                       fontSize: 13.5,
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColors.surfaceElevated,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -171,7 +168,7 @@ class ProductInfoSection extends StatelessWidget {
               height: 46,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: repakeLime,
+                  backgroundColor: AppColors.lime,
                   foregroundColor: AppColors.charcoal,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -221,7 +218,8 @@ class ProductInfoSection extends StatelessWidget {
                     ? NetworkImage(product.sellerAvatarUrl!)
                     : null,
                 child: product.sellerAvatarUrl == null
-                    ? const Icon(Icons.person, color: Colors.white, size: 22)
+                    ? const Icon(Icons.person,
+                        color: AppColors.textOnDark, size: 22)
                     : null,
               ),
               const SizedBox(width: 10),
@@ -241,7 +239,7 @@ class ProductInfoSection extends StatelessWidget {
                       const SizedBox(width: 8),
                       const Icon(
                         Icons.star,
-                        color: Color(0xFFFFC107),
+                        color: AppColors.ratingYellow,
                         size: 16,
                       ),
                       const SizedBox(width: 3),
@@ -285,7 +283,7 @@ class ProductInfoSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        color: isGreen ? repakeLime : repakeChipBg,
+        color: isGreen ? AppColors.lime : AppColors.neutral100,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(

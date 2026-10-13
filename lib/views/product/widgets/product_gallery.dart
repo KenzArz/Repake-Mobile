@@ -17,8 +17,6 @@ class ProductGallery extends StatelessWidget {
   final ValueChanged<int> onSelectIndex;
   final double height;
 
-  static const Color repakeLime = Color(0xFFC3E06D);
-
   @override
   Widget build(BuildContext context) {
     final activeUrl = images.isNotEmpty ? images[selectedIndex] : '';
@@ -54,16 +52,17 @@ class ProductGallery extends StatelessWidget {
                       width: 62,
                       height: 62,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.surfaceElevated,
                         borderRadius: BorderRadius.circular(8),
                         border: isSelected
-                            ? Border.all(color: repakeLime, width: 2.5)
-                            : Border.all(color: Colors.white, width: 1.5),
-                        boxShadow: const [
+                            ? Border.all(color: AppColors.lime, width: 2.5)
+                            : Border.all(
+                                color: AppColors.surfaceElevated, width: 1.5),
+                        boxShadow: [
                           BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black.withValues(alpha: 0.26),
                             blurRadius: 6,
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                           ),
                         ],
                         image: DecorationImage(
