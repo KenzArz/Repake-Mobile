@@ -16,12 +16,14 @@ class ProductCard extends StatelessWidget {
     this.onTap,
     this.onFavoriteTap,
     this.onMoreTap,
+    this.titleMaxLines = 1,
   });
 
   final ProductModel product;
   final VoidCallback? onTap; // Aksi saat kartu ditekan (buka detail)
   final VoidCallback? onFavoriteTap; // Aksi saat tombol favorit ditekan
   final VoidCallback? onMoreTap; // Aksi saat tombol titik tiga ditekan
+  final int titleMaxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +51,10 @@ class ProductCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
 
-              // 3. Judul Produk (Maksimal 1 baris)
+              // 3. Judul Produk
               Text(
                 product.title,
-                maxLines: 1,
+                maxLines: titleMaxLines,
                 overflow: TextOverflow
                     .ellipsis, // Bikin teks jadi '...' kalau kepanjangan
                 style: AppTextStyles.body().copyWith(
