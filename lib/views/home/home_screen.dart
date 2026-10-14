@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/AuthController.dart';
 import '../../models/CategoryModel.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_text_styles.dart';
+import '../auth/login_popup.dart';
 import '../navigation/top_appBar.dart';
 import '../product/product_detail.dart';
 import '../product/widgets/product_card.dart';
 import 'widgets/banner_slider.dart';
 import 'widgets/category_list.dart';
-import '../profile/seller_profile.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -58,6 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _toggleFavorite(ProductModel p) {
+    if (AuthController.instance.isGuest) {
+      showLoginPopup(context);
+      return;
+    }
     ProductModel flip(ProductModel x) =>
         x.id == p.id ? x.copyWith(isFavorite: !x.isFavorite) : x;
     setState(() {
@@ -108,12 +113,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 // TODO: panggil product_controller untuk mencari
               },
               onProfileTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SellerProfilePage(),
-                  ),
-                );
+                if (AuthController.instance.isGuest) {
+                  showLoginPopup(context);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const SellerProfilePage(isOwnProfile: true),
+                    ),
+                  );
+                }
               },
             ),
             Expanded(

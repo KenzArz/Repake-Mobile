@@ -199,21 +199,28 @@ class ProductInfoSection extends StatelessWidget {
   Widget _buildSellerInfoRow(BuildContext context) {
     return Row(
       children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SellerProfilePage(
-                  sellerName: product.sellerName,
-                  location: product.location,
-                  rating: 4.5,
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            splashColor: AppColors.charcoal.withAlpha(25),
+            highlightColor: AppColors.charcoal.withAlpha(18),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SellerProfilePage(
+                    sellerName: product.sellerName,
+                    location: product.location,
+                    rating: 4.5,
+                  ),
                 ),
-              ),
-            );
-          },
-          child: Row(
-            children: [
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              child: Row(
+                children: [
               CircleAvatar(
                 radius: 19,
                 backgroundColor: AppColors.neutral200,
@@ -265,10 +272,12 @@ class ProductInfoSection extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+              ],
+            ),
           ),
         ),
-        const Spacer(),
+      ),
+      const Spacer(),
         IconButton(
           icon: const Icon(
             Icons.more_vert,
