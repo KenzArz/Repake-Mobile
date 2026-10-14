@@ -126,10 +126,10 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                     children: [
                       Stack(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 36,
                             backgroundColor: AppColors.neutral300,
-                            child: const Icon(
+                            child: Icon(
                               Icons.person,
                               size: 40,
                               color: AppColors.textOnDark,
@@ -178,7 +178,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             const SizedBox(height: 4),
                             Text(
                               '📍 ${widget.location} • Online 10 menit lalu',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.textSecondary,
                                 fontSize: 13,
                               ),
@@ -311,7 +311,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                       color: Colors.black87,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Urutkan: Terbaru',
                     style: TextStyle(
                       fontSize: 12,
@@ -399,7 +399,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   item.condition,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 10,
                                     color: AppColors.textSecondary,
                                   ),
@@ -435,7 +435,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
         const SizedBox(height: 2),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 11,
             color: AppColors.textSecondary,
           ),

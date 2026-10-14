@@ -4,6 +4,7 @@ import '../../models/ChatModel.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../utils/navigation_helper.dart';
 import '../navigation/top_appBar.dart';
 import 'chat_room_screen.dart';
 
@@ -162,15 +163,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
       case ChatFilter.buying:
         // Tampilkan chat dimana current user = pembeli
-        return _allChats
-            .where((c) => c.buyerId == _currentUserId)
-            .toList();
+        return _allChats.where((c) => c.buyerId == _currentUserId).toList();
 
       case ChatFilter.selling:
         // Tampilkan chat dimana current user = penjual
-        return _allChats
-            .where((c) => c.sellerId == _currentUserId)
-            .toList();
+        return _allChats.where((c) => c.sellerId == _currentUserId).toList();
 
       case ChatFilter.unread:
         // Tampilkan chat dengan unread count > 0
@@ -206,9 +203,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
             TopAppBar(
               scrollController: _scrollController,
               showSearch: false, // Nonaktifkan search di chat list
-              onProfileTap: () {
-                // TODO: buka profile
-              },
+              onProfileTap: () => NavigationHelper.toProfile(context),
             ),
 
             // Filter dropdown
@@ -296,7 +291,7 @@ class _FilterDropdown extends StatelessWidget {
               children: [
                 Text(selectedFilter.label, style: AppTextStyles.h5()),
                 const SizedBox(width: 4),
-                const Icon(Icons.arrow_drop_down, 
+                const Icon(Icons.arrow_drop_down,
                     size: 24, color: AppColors.textPrimary),
               ],
             ),
@@ -351,7 +346,7 @@ class _ChatListTile extends StatelessWidget {
                       color: AppColors.textSecondary,
                     ),
                   ),
-                  
+
                   // Unread badge di kanan atas avatar
                   if (hasUnread)
                     Positioned(
@@ -442,9 +437,8 @@ class _ChatListTile extends StatelessWidget {
                               color: hasUnread
                                   ? AppColors.textPrimary
                                   : AppColors.textSecondary,
-                              fontWeight: hasUnread
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
+                              fontWeight:
+                                  hasUnread ? FontWeight.w600 : FontWeight.w400,
                             ),
                           ),
                         ),

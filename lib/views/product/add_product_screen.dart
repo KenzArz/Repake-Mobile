@@ -34,7 +34,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   /// TODO: ganti dengan nama kondisi yang asli (contoh: "Baru",
   /// "Seperti baru", "Bekas layak pakai", "Perlu perbaikan").
-  static const _conditions = ['Kondisi 1', 'Kondisi 2', 'Kondisi 3', 'Kondisi 4'];
+  static const _conditions = [
+    'Kondisi 1',
+    'Kondisi 2',
+    'Kondisi 3',
+    'Kondisi 4'
+  ];
 
   /// TODO: ganti dengan kategori dari database (category_controller).
   static const _categories = [
@@ -224,7 +229,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget _buildReorderHint() {
     return Row(
       children: [
-        const Icon(Icons.drag_indicator, size: 18, color: AppColors.textPrimary),
+        const Icon(Icons.drag_indicator,
+            size: 18, color: AppColors.textPrimary),
         const SizedBox(width: 4),
         Expanded(
           child: Text(
@@ -314,7 +320,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             // --- Kategori Produk ---
             const _FieldLabel('Kategori Produk'),
             DropdownButtonFormField<String>(
-              value: _category,
+              initialValue: _category,
               isExpanded: true,
               icon: const Icon(Icons.keyboard_arrow_down_rounded),
               borderRadius: BorderRadius.circular(8),

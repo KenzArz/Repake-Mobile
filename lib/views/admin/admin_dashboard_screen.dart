@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import 'banner_manage_screen.dart';
+import 'category_manage_screen.dart';
 import 'report_list_screen.dart';
 
 /// Halaman Dashboard Admin. Berisi 3 tab:
-///   1. Laporan  -> ReportListScreen      (Rafis)
-///   2. Kategori -> belum dibuat          (Aldi, category_form.dart)
+///   1. Laporan  -> ReportListScreen      (melihat laporan pengguna)
+///   2. Kategori -> CategoryManageScreen  (kelola kategori produk)
 ///   3. Banner   -> BannerManageScreen    (atur banner beranda)
 ///
 /// Untuk menambah / menghapus tab: ubah `length`, daftar `tabs`,
@@ -60,7 +61,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     ReportListScreen(),
-                    _CategoryPlaceholder(),
+                    CategoryManageScreen(),
                     BannerManageScreen(),
                   ],
                 ),
@@ -108,33 +109,6 @@ class _DashboardTabBar extends StatelessWidget {
             Tab(text: 'Banner', height: 36),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Tab Kategori masih kosong (dikerjakan Aldi).
-/// Nanti ganti `_CategoryPlaceholder()` di atas dengan layar kategori asli.
-class _CategoryPlaceholder extends StatelessWidget {
-  const _CategoryPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.category_outlined,
-              size: 40, color: AppColors.neutral400),
-          const SizedBox(height: 12),
-          Text('Kelola Kategori', style: AppTextStyles.h5()),
-          const SizedBox(height: 4),
-          Text(
-            'Belum dibuat.',
-            style:
-                AppTextStyles.body().copyWith(color: AppColors.textMuted),
-          ),
-        ],
       ),
     );
   }

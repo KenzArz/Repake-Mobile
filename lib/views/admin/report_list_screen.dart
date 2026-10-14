@@ -28,7 +28,7 @@ class _ReportListScreenState extends State<ReportListScreen>
   late final List<ReportModel> _reports = _dummyReports();
 
   static List<ReportModel> _dummyReports() {
-    final types = ReportType.values;
+    const types = ReportType.values;
     return List.generate(8, (i) {
       return ReportModel(
         id: 'r$i',
