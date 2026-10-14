@@ -25,18 +25,30 @@ class ProductModel {
   final String? imageUrl;
   final bool isFavorite;
 
-  ProductModel copyWith({bool? isFavorite}) {
+  ProductModel copyWith({
+    String? id,
+    String? title,
+    int? price,
+    String? sellerName,
+    String? sellerAvatarUrl,
+    String? location,
+    DateTime? createdAt,
+    String? condition,
+    String? status,
+    String? imageUrl,
+    bool? isFavorite,
+  }) {
     return ProductModel(
-      id: id,
-      title: title,
-      price: price,
-      sellerName: sellerName,
-      sellerAvatarUrl: sellerAvatarUrl,
-      location: location,
-      createdAt: createdAt,
-      condition: condition,
-      status: status,
-      imageUrl: imageUrl,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      price: price ?? this.price,
+      sellerName: sellerName ?? this.sellerName,
+      sellerAvatarUrl: sellerAvatarUrl ?? this.sellerAvatarUrl,
+      location: location ?? this.location,
+      createdAt: createdAt ?? this.createdAt,
+      condition: condition ?? this.condition,
+      status: status ?? this.status,
+      imageUrl: imageUrl ?? this.imageUrl,
       isFavorite: isFavorite ?? this.isFavorite,
     );
   }

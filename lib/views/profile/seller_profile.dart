@@ -9,6 +9,7 @@ import '../../controllers/ProfileController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../product/product_detail.dart';
+import '../product/widgets/product_card.dart';
 import 'edit_profile_screen.dart';
 
 /// Halaman Profil Penjual (Seller Profile Page).
@@ -32,7 +33,7 @@ class SellerProfilePage extends StatefulWidget {
 }
 
 class _SellerProfilePageState extends State<SellerProfilePage> {
-  // Using AppColors.lime from theme system
+  // Using AppColors.lime from theme system instead of hardcoded AppColors.lime
   bool _isFollowing = false;
 
   void _confirmLogout(BuildContext context) {
@@ -63,7 +64,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorBase,
-              foregroundColor: AppColors.surfaceElevated,
+              foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
@@ -92,6 +93,42 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
   late final List<ProductModel> _sellerProducts = [
     ProductModel(
       id: 'sel_1',
+      title: 'Femboy imup ganas',
+      price: 670000,
+      sellerName: widget.sellerName,
+      location: widget.location,
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      condition: 'Dirawat dengan baik',
+      status: 'Dijual',
+      imageUrl:
+          'https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    ),
+    ProductModel(
+      id: 'sel_2',
+      title: 'Kemeja pria warna merah motif kotak lengan panjang',
+      price: 170000,
+      sellerName: widget.sellerName,
+      location: widget.location,
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      condition: 'Dirawat dengan baik',
+      status: 'Dijual',
+      imageUrl:
+          'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    ),
+    ProductModel(
+      id: 'sel_3',
+      title: 'Sepatu adidas asli ori real warna hitam ukuran a4',
+      price: 250000,
+      sellerName: widget.sellerName,
+      location: widget.location,
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      condition: 'Jarang Digunakan',
+      status: 'Dijual',
+      imageUrl:
+          'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    ),
+    ProductModel(
+      id: 'sel_4',
       title: 'Keyboard pemda bekas reza auditore asli no hoax',
       price: 670000,
       sellerName: widget.sellerName,
@@ -100,43 +137,19 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
       condition: 'Dirawat dengan baik',
       status: 'Dijual',
       imageUrl:
-          'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_2',
-      title: 'Keycaps PBT Matcha Dye-Sub Cherry Profile',
-      price: 185000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      condition: 'Seperti baru',
-      status: 'Dijual',
-      imageUrl:
           'https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
     ),
     ProductModel(
-      id: 'sel_3',
-      title: 'Switch Lubed Gateron Yellow Pro 70 pcs',
-      price: 210000,
+      id: 'sel_5',
+      title: 'Samsung galaxy ear buds',
+      price: 100000,
       sellerName: widget.sellerName,
       location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(days: 3)),
-      condition: 'Mulus 99%',
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      condition: 'Dirawat dengan baik',
       status: 'Dijual',
       imageUrl:
-          'https://images.unsplash.com/photo-1595044426077-d36d9236d54a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_4',
-      title: 'Deskmat Deskpad Minimalist Dark 90x40cm',
-      price: 95000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(days: 5)),
-      condition: 'Bekas layak pakai',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+          'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
     ),
   ];
 
@@ -173,9 +186,9 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
             (user.name.isNotEmpty && user.name == widget.sellerName);
 
         return Scaffold(
-          backgroundColor: AppColors.surfacePage,
+          backgroundColor: Colors.grey.shade50,
           appBar: AppBar(
-            backgroundColor: AppColors.surfaceElevated,
+            backgroundColor: Colors.white,
             elevation: 0.5,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black87),
@@ -200,8 +213,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                       builder: (context) => const EditProfileScreen(),
                     ),
                   );
-                  // TIDAK PERLU setState!
-                  // ProfileController.notifyListeners() sudah handle rebuild otomatis
+                  // TIDAK PERLU setState - ProfileController.notifyListeners() sudah handle rebuild
                 },
               ),
               IconButton(
@@ -226,7 +238,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               children: [
                 // Header info penjual
                 Container(
-                  color: AppColors.surfaceElevated,
+                  color: Colors.white,
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
@@ -236,13 +248,13 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             children: [
                               CircleAvatar(
                                 radius: 36,
-                                backgroundColor: AppColors.neutral300,
+                                backgroundColor: Colors.grey.shade300,
                                 backgroundImage: avatarImage,
                                 child: avatarImage == null
                                     ? const Icon(
                                         Icons.person,
                                         size: 40,
-                                        color: AppColors.surfaceElevated,
+                                        color: Colors.white,
                                       )
                                     : null,
                               ),
@@ -253,10 +265,10 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   width: 14,
                                   height: 14,
                                   decoration: BoxDecoration(
-                                    color: AppColors.successBase,
+                                    color: Colors.green,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: AppColors.surfaceElevated,
+                                      color: Colors.white,
                                       width: 2,
                                     ),
                                   ),
@@ -289,8 +301,8 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   '📍 $displayLocation • Online 10 menit lalu',
-                                  style: const TextStyle(
-                                    color: AppColors.textSecondary,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
                                     fontSize: 13,
                                   ),
                                 ),
@@ -326,15 +338,15 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.surfacePage,
+                            color: Colors.grey.shade50,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: AppColors.neutral200),
+                            border: Border.all(color: Colors.grey.shade200),
                           ),
                           child: Text(
                             user.bio,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12.5,
-                              color: AppColors.textSecondary,
+                              color: Colors.grey.shade700,
                               height: 1.4,
                             ),
                           ),
@@ -366,8 +378,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                           const EditProfileScreen(),
                                     ),
                                   );
-                                  // TIDAK PERLU setState!
-                                  // ProfileController.notifyListeners() sudah handle rebuild
+                                  setState(() {});
                                 },
                                 icon: const Icon(Icons.edit_outlined, size: 18),
                                 label: const Text(
@@ -408,12 +419,12 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               child: OutlinedButton(
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: _isFollowing
-                                      ? AppColors.lime.withValues(alpha: 0.2)
-                                      : AppColors.surfaceElevated,
+                                      ? AppColors.lime.withAlpha(50)
+                                      : Colors.white,
                                   side: BorderSide(
                                     color: _isFollowing
-                                        ? AppColors.lime700
-                                        : AppColors.neutral400,
+                                        ? const Color(0xFF81973D)
+                                        : Colors.grey.shade400,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -422,22 +433,14 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                       const EdgeInsets.symmetric(vertical: 12),
                                 ),
                                 onPressed: () {
-                                  // Wrap setState dengan PostFrameCallback untuk keamanan
-                                  // karena berada di dalam ListenableBuilder
-                                  SchedulerBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    if (mounted) {
-                                      setState(() {
-                                        _isFollowing = !_isFollowing;
-                                      });
-                                    }
+                                  setState(() {
+                                    _isFollowing = !_isFollowing;
                                   });
-
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(_isFollowing
-                                          ? 'Berhenti mengikuti ${widget.sellerName}'
-                                          : 'Mengikuti ${widget.sellerName}'),
+                                          ? 'Mengikuti ${widget.sellerName}'
+                                          : 'Berhenti mengikuti ${widget.sellerName}'),
                                       behavior: SnackBarBehavior.floating,
                                       duration: const Duration(seconds: 1),
                                     ),
@@ -480,26 +483,6 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             ),
                           ],
                         ),
-                      const SizedBox(height: 16),
-                      // Statistik Penjual
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildStatItem('4', 'Produk Dijual'),
-                            _buildVerticalDivider(),
-                            _buildStatItem('36', 'Terjual'),
-                            _buildVerticalDivider(),
-                            _buildStatItem('99%', 'Respon Chat'),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -519,108 +502,53 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                           color: Colors.black87,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'Urutkan: Terbaru',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: Colors.grey.shade600,
                         ),
                       ),
                     ],
                   ),
                 ),
-                // Grid Produk Penjual
+                // Grid Produk Penjual (2 Kolom Menggunakan ProductCard Sesuai Desain PDF)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _sellerProducts.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.72,
-                    ),
-                    itemBuilder: (context, index) {
-                      final item = _sellerProducts[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailPage(
-                                product: item,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceElevated,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.neutral200),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    children: [
+                      for (int i = 0; i < _sellerProducts.length; i += 2) ...[
+                        if (i > 0) const SizedBox(height: 12),
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(10),
-                                ),
-                                child: Image.network(
-                                  item.imageUrl ?? '',
-                                  height: 120,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => Container(
-                                    height: 120,
-                                    color: AppColors.neutral200,
-                                    child: const Icon(Icons.image,
-                                        color: Colors.grey),
-                                  ),
+                              Expanded(
+                                child: _buildProductCard(
+                                  context,
+                                  _sellerProducts[i],
+                                  avatarImage,
+                                  displayName,
+                                  displayLocation,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      item.priceLabel,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      item.condition,
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        color: AppColors.textSecondary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: (i + 1 < _sellerProducts.length)
+                                    ? _buildProductCard(
+                                        context,
+                                        _sellerProducts[i + 1],
+                                        avatarImage,
+                                        displayName,
+                                        displayLocation,
+                                      )
+                                    : const SizedBox.shrink(),
                               ),
                             ],
                           ),
                         ),
-                      );
-                    },
+                      ],
+                    ],
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -632,34 +560,114 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
     );
   }
 
-  Widget _buildStatItem(String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            color: Colors.black87,
+  Widget _buildProductCard(
+    BuildContext context,
+    ProductModel item,
+    ImageProvider? avatarImage,
+    String displayName,
+    String displayLocation,
+  ) {
+    // Sinkronkan nama penjual dan lokasi dengan profil saat ini
+    final productWithSeller = item.copyWith(
+      sellerName: displayName,
+      location: displayLocation,
+    );
+
+    return ProductCard(
+      product: productWithSeller,
+      sellerAvatarImage: avatarImage,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailPage(
+              product: productWithSeller,
+            ),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      ],
+        );
+      },
+      onFavoriteTap: () {
+        if (AuthController.instance.isGuest) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Silakan masuk untuk menyimpan favorit.'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
+        setState(() {
+          final idx = _sellerProducts.indexWhere((p) => p.id == item.id);
+          if (idx != -1) {
+            _sellerProducts[idx] = _sellerProducts[idx].copyWith(
+              isFavorite: !_sellerProducts[idx].isFavorite,
+            );
+          }
+        });
+      },
+      onMoreTap: () => _showProductOptions(context, productWithSeller),
     );
   }
 
-  Widget _buildVerticalDivider() {
-    return Container(
-      width: 1,
-      height: 24,
-      color: AppColors.neutral300,
+  void _showProductOptions(BuildContext context, ProductModel product) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 12),
+              ListTile(
+                leading:
+                    const Icon(Icons.share_outlined, color: Colors.black87),
+                title: const Text('Bagikan Produk'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Tautan "${product.title}" disalin!'),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading:
+                    const Icon(Icons.flag_outlined, color: AppColors.errorBase),
+                title: const Text(
+                  'Laporkan Produk',
+                  style: TextStyle(color: AppColors.errorBase),
+                ),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Laporan Anda telah dikirim.'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
