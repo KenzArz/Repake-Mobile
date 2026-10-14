@@ -3,6 +3,7 @@ import 'package:projectrepake/views/product/add_product_screen.dart';
 
 import '../admin/admin_dashboard_screen.dart';
 import '../chat/chat_list_screen.dart';
+import '../favorite/favorite_screen.dart';
 import '../home/home_screen.dart';
 import 'main_shell.dart';
 
@@ -44,7 +45,7 @@ class AdminNavbar extends StatelessWidget {
       pages: [
         HomeScreen(),
         AdminDashboardScreen(),
-        PlaceholderPage('Favorit'),
+        FavoriteScreen(),
         AddProductScreen(),
         ChatListScreen(),
       ],

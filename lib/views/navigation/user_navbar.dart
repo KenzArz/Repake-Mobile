@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/AuthController.dart';
 import '../auth/login_popup.dart';
 import '../chat/chat_list_screen.dart';
+import '../favorite/favorite_screen.dart';
 import '../home/home_screen.dart';
 import '../product/add_product_screen.dart';
 import 'main_shell.dart';
@@ -42,7 +43,7 @@ class UserNavbar extends StatelessWidget {
       // Halaman untuk tiap menu.
       pages: const [
         HomeScreen(),
-        PlaceholderPage('Favorit'),
+        FavoriteScreen(),
         AddProductScreen(),
         ChatListScreen(),
       ],
