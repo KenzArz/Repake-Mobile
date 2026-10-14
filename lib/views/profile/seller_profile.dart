@@ -71,7 +71,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorBase,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.textOnDark,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
@@ -193,25 +193,28 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
             (user.name.isNotEmpty && user.name == widget.sellerName);
 
         return Scaffold(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor: AppColors.surfacePage,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.surfaceElevated,
             elevation: 0.5,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black87),
+              icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
               displayName,
               style: AppTextStyles.h5().copyWith(
-                color: Colors.black87,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.edit_outlined, color: Colors.black87),
+                icon: const Icon(
+                  Icons.edit_outlined,
+                  color: AppColors.textPrimary,
+                ),
                 tooltip: 'Edit Profil',
                 onPressed: () async {
                   await Navigator.push(
@@ -224,7 +227,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.share, color: Colors.black87),
+                icon: const Icon(Icons.share, color: AppColors.textPrimary),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -245,7 +248,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               children: [
                 // Header info penjual
                 Container(
-                  color: Colors.white,
+                  color: AppColors.surfaceElevated,
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
@@ -255,13 +258,13 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             children: [
                               CircleAvatar(
                                 radius: 36,
-                                backgroundColor: Colors.grey.shade300,
+                                backgroundColor: AppColors.neutral300,
                                 backgroundImage: avatarImage,
                                 child: avatarImage == null
                                     ? const Icon(
                                         Icons.person,
                                         size: 40,
-                                        color: Colors.white,
+                                        color: AppColors.textOnDark,
                                       )
                                     : null,
                               ),
@@ -272,10 +275,10 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   width: 14,
                                   height: 14,
                                   decoration: BoxDecoration(
-                                    color: Colors.green,
+                                    color: AppColors.successBase,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: AppColors.surfaceElevated,
                                       width: 2,
                                     ),
                                   ),
@@ -300,7 +303,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                     const SizedBox(width: 6),
                                     const Icon(
                                       Icons.verified,
-                                      color: Color(0xFF4C8B4A),
+                                      color: AppColors.successBase,
                                       size: 18,
                                     ),
                                   ],
@@ -309,7 +312,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 Text(
                                   '📍 $displayLocation • Online 10 menit lalu',
                                   style: AppTextStyles.caption().copyWith(
-                                    color: Colors.grey.shade600,
+                                    color: AppColors.neutral600,
                                     fontSize: 13,
                                   ),
                                 ),
@@ -318,7 +321,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   children: [
                                     const Icon(
                                       Icons.star,
-                                      color: Colors.amber,
+                                      color: AppColors.ratingYellow,
                                       size: 16,
                                     ),
                                     const SizedBox(width: 4),
@@ -345,15 +348,15 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade50,
+                            color: AppColors.neutral50,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey.shade200),
+                            border: Border.all(color: AppColors.neutral100),
                           ),
                           child: Text(
                             user.bio,
                             style: AppTextStyles.body().copyWith(
                               fontSize: 12.5,
-                              color: Colors.grey.shade700,
+                              color: AppColors.neutral700,
                               height: 1.4,
                             ),
                           ),
@@ -369,7 +372,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               child: ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.lime,
-                                  foregroundColor: Colors.black87,
+                                  foregroundColor: AppColors.textPrimary,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -431,11 +434,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: _isFollowing
                                       ? AppColors.lime.withAlpha(50)
-                                      : Colors.white,
+                                      : AppColors.surfaceElevated,
                                   side: BorderSide(
                                     color: _isFollowing
-                                        ? const Color(0xFF81973D)
-                                        : Colors.grey.shade400,
+                                        ? AppColors.lime700
+                                        : AppColors.neutral400,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -462,7 +465,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                       ? '✓ Mengikuti'
                                       : '+ Ikuti Penjual',
                                   style: AppTextStyles.label().copyWith(
-                                    color: Colors.black87,
+                                    color: AppColors.textPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -473,7 +476,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               child: ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.lime,
-                                  foregroundColor: Colors.black87,
+                                  foregroundColor: AppColors.textPrimary,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -512,14 +515,14 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                         style: AppTextStyles.h5().copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         'Urutkan: Terbaru',
                         style: AppTextStyles.caption().copyWith(
                           fontSize: 12,
-                          color: Colors.grey.shade600,
+                          color: AppColors.neutral600,
                         ),
                       ),
                     ],
@@ -638,14 +641,17 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: AppColors.neutral300,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 12),
               ListTile(
                 leading:
-                    const Icon(Icons.share_outlined, color: Colors.black87),
+                    const Icon(
+                      Icons.share_outlined,
+                      color: AppColors.textPrimary,
+                    ),
                 title: const Text('Bagikan Produk'),
                 onTap: () {
                   Navigator.pop(ctx);
@@ -739,7 +745,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.lime,
-                  foregroundColor: Colors.black87,
+                  foregroundColor: AppColors.textPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

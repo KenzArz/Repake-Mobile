@@ -536,7 +536,7 @@ class _ImagePickerBox extends StatelessWidget {
                   ),
                   child: const Icon(
                     Icons.image_outlined,
-                    color: Colors.white,
+                    color: AppColors.textOnDark,
                     size: 30,
                   ),
                 ),
@@ -624,7 +624,7 @@ class _ImageTile extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.close,
-                          size: 14, color: Colors.white),
+                          size: 14, color: AppColors.textOnDark),
                     ),
                   ),
                 ),

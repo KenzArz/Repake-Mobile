@@ -445,13 +445,17 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: const Color(0x99202320),
+                                    color: AppColors.charcoal.withValues(
+                                      alpha: 0.6,
+                                    ),
                                     borderRadius: BorderRadius.circular(999),
                                   ),
                                   child: Text(
                                     'Ganti gambar',
                                     style: AppTextStyles.caption()
-                                        .copyWith(color: Colors.white),
+                                        .copyWith(
+                                          color: AppColors.textOnDark,
+                                        ),
                                   ),
                                 ),
                               ),

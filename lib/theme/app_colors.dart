@@ -62,4 +62,10 @@ class AppColors {
 
   // Additional colors
   static const ratingYellow = Color(0xFFFFC107); // Star rating color
+
+  // Brand colors
+  static const googleBlue = Color(0xFF4285F4);
+  static const googleRed = Color(0xFFEA4335);
+  static const googleYellow = Color(0xFFFBBC05);
+  static const googleGreen = Color(0xFF34A853);
 }
