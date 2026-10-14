@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import '../../models/CategoryModel.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_text_styles.dart';
+import '../../utils/navigation_helper.dart';
 import '../navigation/top_appBar.dart';
-import '../product/product_detail.dart';
 import '../product/widgets/product_card.dart';
 import 'widgets/banner_slider.dart';
 import 'widgets/category_list.dart';
-import '../profile/seller_profile.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -70,14 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _card(ProductModel p) {
     return ProductCard(
       product: p,
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailPage(product: p),
-          ),
-        );
-      },
+      onTap: () => NavigationHelper.toProductDetail(context, p),
       onFavoriteTap: () => _toggleFavorite(p),
       onMoreTap: () {
         // TODO: menu "Laporkan" dll.
@@ -107,14 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onSearchSubmitted: (query) {
                 // TODO: panggil product_controller untuk mencari
               },
-              onProfileTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SellerProfilePage(),
-                  ),
-                );
-              },
+              onProfileTap: () => NavigationHelper.toProfile(context),
             ),
             Expanded(
               child: CustomScrollView(

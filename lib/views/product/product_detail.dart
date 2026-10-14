@@ -143,10 +143,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 18,
                         backgroundColor: AppColors.lime,
-                        child: const Icon(
+                        child: Icon(
                           Icons.person,
                           size: 20,
                           color: AppColors.charcoal,
@@ -163,7 +163,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Online • Balas dalam beberapa menit',
                             style: TextStyle(
                               fontSize: 12,
@@ -196,11 +196,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   contentPadding: const EdgeInsets.all(12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.neutral300),
+                    borderSide: const BorderSide(color: AppColors.neutral300),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.neutral300),
+                    borderSide: const BorderSide(color: AppColors.neutral300),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
