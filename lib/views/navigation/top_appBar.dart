@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollDirection;
 
+import '../../controllers/AuthController.dart';
+import '../../controllers/ProfileController.dart';
+import '../../models/UserRole.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 
@@ -226,17 +232,103 @@ class _ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: const BoxDecoration(
-          color: AppColors.lime200,
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(Icons.person, size: 18, color: AppColors.textPrimary),
-      ),
+    return ValueListenableBuilder<UserRole>(
+      valueListenable: AuthController.instance.role,
+      builder: (context, role, _) {
+        if (role == UserRole.guest) {
+          return Material(
+            color: AppColors.lime,
+            borderRadius: BorderRadius.circular(20),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onTap,
+              splashColor: AppColors.charcoal.withAlpha(55),
+              highlightColor: AppColors.charcoal.withAlpha(50),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.login_rounded,
+                        size: 16, color: AppColors.charcoal),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Masuk',
+                      style: AppTextStyles.label().copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.charcoal,
+                        fontSize: 12.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        return ListenableBuilder(
+          listenable: ProfileController.instance,
+          builder: (context, _) {
+            final avatarFile = ProfileController.instance.avatarFile;
+            final avatarUrl = ProfileController.instance.currentUser.avatarUrl;
+
+            ImageProvider? avatarImage;
+            if (avatarFile != null) {
+              if (kIsWeb) {
+                avatarImage = NetworkImage(avatarFile.path);
+              } else {
+                avatarImage = FileImage(avatarFile);
+              }
+            } else if (avatarUrl != null && avatarUrl.isNotEmpty) {
+              if (kIsWeb ||
+                  avatarUrl.startsWith('http') ||
+                  avatarUrl.startsWith('blob:')) {
+                avatarImage = NetworkImage(avatarUrl);
+              } else {
+                final f = File(avatarUrl);
+                if (f.existsSync()) {
+                  avatarImage = FileImage(f);
+                }
+              }
+            }
+
+            return Tooltip(
+              message: 'Profil',
+              child: Material(
+                color: AppColors.lime200,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: onTap,
+                  splashColor: AppColors.charcoal.withAlpha(55),
+                  highlightColor: AppColors.charcoal.withAlpha(50),
+                  hoverColor: AppColors.charcoal.withAlpha(25),
+                  child: SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: avatarImage != null
+                        ? Ink.image(
+                            image: avatarImage,
+                            fit: BoxFit.cover,
+                            width: 36,
+                            height: 36,
+                          )
+                        : const Center(
+                            child: Icon(
+                              Icons.person,
+                              size: 20,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

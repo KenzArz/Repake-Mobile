@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../controllers/ProfileController.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../profile/seller_profile.dart';
 import 'banner_manage_screen.dart';
 import 'category_manage_screen.dart';
 import 'report_list_screen.dart';
@@ -48,6 +53,76 @@ class AdminDashboardScreen extends StatelessWidget {
                         style: AppTextStyles.caption()
                             .copyWith(fontWeight: FontWeight.w700),
                       ),
+                    ),
+                    const Spacer(),
+                    ListenableBuilder(
+                      listenable: ProfileController.instance,
+                      builder: (context, _) {
+                        final avatarFile = ProfileController.instance.avatarFile;
+                        final avatarUrl =
+                            ProfileController.instance.currentUser.avatarUrl;
+
+                        ImageProvider? avatarImage;
+                        if (avatarFile != null) {
+                          if (kIsWeb) {
+                            avatarImage = NetworkImage(avatarFile.path);
+                          } else {
+                            avatarImage = FileImage(avatarFile);
+                          }
+                        } else if (avatarUrl != null && avatarUrl.isNotEmpty) {
+                          if (kIsWeb ||
+                              avatarUrl.startsWith('http') ||
+                              avatarUrl.startsWith('blob:')) {
+                            avatarImage = NetworkImage(avatarUrl);
+                          } else {
+                            final f = File(avatarUrl);
+                            if (f.existsSync()) {
+                              avatarImage = FileImage(f);
+                            }
+                          }
+                        }
+
+                        return Tooltip(
+                          message: 'Profil',
+                          child: Material(
+                            color: AppColors.lime200,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SellerProfilePage(isOwnProfile: true),
+                                  ),
+                                );
+                              },
+                              splashColor: AppColors.charcoal.withAlpha(55),
+                              highlightColor: AppColors.charcoal.withAlpha(50),
+                              hoverColor: AppColors.charcoal.withAlpha(25),
+                              child: SizedBox(
+                                width: 34,
+                                height: 34,
+                                child: avatarImage != null
+                                    ? Ink.image(
+                                        image: avatarImage,
+                                        fit: BoxFit.cover,
+                                        width: 34,
+                                        height: 34,
+                                      )
+                                    : const Center(
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 19,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/AuthController.dart';
+import '../auth/login_popup.dart';
 import '../chat/chat_list_screen.dart';
 import '../home/home_screen.dart';
 import '../product/add_product_screen.dart';
 import 'main_shell.dart';
 
 /// Navbar untuk Mahasiswa / Guest: Home, Favorite, Jual, Chat.
-/// Semua logika navbar ada di MainShell; file ini hanya mengisi menu dan halaman.
+/// Aktor Guest dibatasi hanya bisa melihat Home. Jika Guest menekan
+/// tab Favorite, Jual, atau Chat, akan muncul Pop-up "Masuk ke RePake".
 class UserNavbar extends StatelessWidget {
   const UserNavbar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MainShell(
+    return MainShell(
       // Menu di navbar bawah (urutannya harus sama dengan `pages` di bawah).
-      items: [
+      items: const [
         NavItemData(
           label: 'Home',
           icon: Icons.home_outlined,
@@ -37,13 +40,20 @@ class UserNavbar extends StatelessWidget {
         ),
       ],
       // Halaman untuk tiap menu.
-      // TODO: ganti placeholder Favorit dengan layar asli.
-      pages: [
+      pages: const [
         HomeScreen(),
         PlaceholderPage('Favorit'),
         AddProductScreen(),
         ChatListScreen(),
       ],
+      // Validasi hak akses guest vs user
+      onBeforeChange: (targetIndex) {
+        if (targetIndex > 0 && AuthController.instance.isGuest) {
+          showLoginPopup(context);
+          return false;
+        }
+        return true;
+      },
     );
   }
 }

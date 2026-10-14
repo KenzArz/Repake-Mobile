@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/AuthController.dart';
 import '../../models/CategoryModel.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
+import '../auth/login_popup.dart';
 import '../navigation/top_appBar.dart';
 import '../product/widgets/product_card.dart';
 import 'widgets/banner_slider.dart';
@@ -56,6 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _toggleFavorite(ProductModel p) {
+    if (AuthController.instance.isGuest) {
+      showLoginPopup(context);
+      return;
+    }
     ProductModel flip(ProductModel x) =>
         x.id == p.id ? x.copyWith(isFavorite: !x.isFavorite) : x;
     setState(() {

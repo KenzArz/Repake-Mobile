@@ -1,8 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import '../../controllers/AuthController.dart';
+import '../../controllers/ProfileController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../product/product_detail.dart';
+import 'edit_profile_screen.dart';
 
 /// Halaman Profil Penjual (Seller Profile Page).
 /// Menampilkan informasi toko/penjual, rating, statistik, dan barang-barang yang dijual.
@@ -12,18 +19,75 @@ class SellerProfilePage extends StatefulWidget {
     this.sellerName = 'Midou_kun',
     this.location = 'Bekasi',
     this.rating = 4.5,
+    this.isOwnProfile = false,
   });
 
   final String sellerName;
   final String location;
   final double rating;
+  final bool isOwnProfile;
 
   @override
   State<SellerProfilePage> createState() => _SellerProfilePageState();
 }
 
 class _SellerProfilePageState extends State<SellerProfilePage> {
+  // Using AppColors.lime from theme system
   bool _isFollowing = false;
+
+  void _confirmLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
+            SizedBox(width: 8),
+            Text(
+              'Konfirmasi Keluar',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ],
+        ),
+        content: const Text(
+          'Apakah Anda yakin ingin keluar dari akun RePake Anda?',
+          style: TextStyle(fontSize: 14.5),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Batal',
+                style: TextStyle(color: AppColors.neutral700)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.errorBase,
+              foregroundColor: AppColors.surfaceElevated,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              AuthController.instance.logout();
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Anda telah keluar dari akun RePake.'),
+                  backgroundColor: AppColors.charcoal,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              );
+            },
+            child: const Text('Keluar'),
+          ),
+        ],
+      ),
+    );
+  }
 
   late final List<ProductModel> _sellerProducts = [
     ProductModel(
@@ -78,346 +142,493 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.surfacePage,
-      appBar: AppBar(
-        backgroundColor: AppColors.surfaceElevated,
-        elevation: 0.5,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          widget.sellerName,
-          style: const TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share, color: Colors.black87),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Tautan profil ${widget.sellerName} disalin!'),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header info penjual
-            Container(
-              color: AppColors.surfaceElevated,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Stack(
-                        children: [
-                          const CircleAvatar(
-                            radius: 36,
-                            backgroundColor: AppColors.neutral300,
-                            child: Icon(
-                              Icons.person,
-                              size: 40,
-                              color: AppColors.textOnDark,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 2,
-                            right: 2,
-                            child: Container(
-                              width: 14,
-                              height: 14,
-                              decoration: BoxDecoration(
-                                color: AppColors.successBase,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColors.surfaceElevated,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  widget.sellerName,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                const Icon(
-                                  Icons.verified,
-                                  color: AppColors.successBase,
-                                  size: 18,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              '📍 ${widget.location} • Online 10 menit lalu',
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
-                                fontSize: 13,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '${widget.rating} (48 ulasan)',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  // Tombol Ikuti & Chat
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: _isFollowing
-                                ? AppColors.lime.withValues(alpha: 0.2)
-                                : AppColors.surfaceElevated,
-                            side: BorderSide(
-                              color: _isFollowing
-                                  ? AppColors.lime700
-                                  : AppColors.neutral400,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isFollowing = !_isFollowing;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(_isFollowing
-                                    ? 'Mengikuti ${widget.sellerName}'
-                                    : 'Berhenti mengikuti ${widget.sellerName}'),
-                                behavior: SnackBarBehavior.floating,
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            _isFollowing ? '✓ Mengikuti' : '+ Ikuti Penjual',
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.lime,
-                            foregroundColor: Colors.black87,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          onPressed: () {
-                            _showChatBottomSheet(context);
-                          },
-                          icon: const Icon(Icons.chat_bubble_outline, size: 18),
-                          label: const Text(
-                            'Chat',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  // Statistik Penjual
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: AppColors.neutral100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildStatItem('4', 'Produk Dijual'),
-                        _buildVerticalDivider(),
-                        _buildStatItem('36', 'Terjual'),
-                        _buildVerticalDivider(),
-                        _buildStatItem('99%', 'Respon Chat'),
-                      ],
-                    ),
-                  ),
-                ],
+    return ListenableBuilder(
+      listenable: ProfileController.instance,
+      builder: (context, _) {
+        final user = ProfileController.instance.currentUser;
+        final displayName =
+            user.name.isNotEmpty ? user.name : widget.sellerName;
+        final displayLocation =
+            user.location.isNotEmpty ? user.location : widget.location;
+
+        ImageProvider? avatarImage;
+        if (!kIsWeb && ProfileController.instance.avatarFile != null) {
+          avatarImage = FileImage(ProfileController.instance.avatarFile!);
+        } else if (user.avatarUrl != null && user.avatarUrl!.isNotEmpty) {
+          if (kIsWeb ||
+              user.avatarUrl!.startsWith('http') ||
+              user.avatarUrl!.startsWith('blob:')) {
+            avatarImage = NetworkImage(user.avatarUrl!);
+          } else {
+            final file = File(user.avatarUrl!);
+            if (file.existsSync()) {
+              avatarImage = FileImage(file);
+            } else {
+              avatarImage = NetworkImage(user.avatarUrl!);
+            }
+          }
+        }
+
+        final isSelf = widget.isOwnProfile ||
+            (user.name.isNotEmpty && user.name == widget.sellerName);
+
+        return Scaffold(
+          backgroundColor: AppColors.surfacePage,
+          appBar: AppBar(
+            backgroundColor: AppColors.surfaceElevated,
+            elevation: 0.5,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black87),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: Text(
+              displayName,
+              style: const TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
-            const SizedBox(height: 12),
-            // Header Daftar Produk
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Semua Produk (${_sellerProducts.length})',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit_outlined, color: Colors.black87),
+                tooltip: 'Edit Profil',
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
                     ),
-                  ),
-                  const Text(
-                    'Urutkan: Terbaru',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
+                  );
+                  // TIDAK PERLU setState!
+                  // ProfileController.notifyListeners() sudah handle rebuild otomatis
+                },
               ),
-            ),
-            // Grid Produk Penjual
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _sellerProducts.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.72,
-                ),
-                itemBuilder: (context, index) {
-                  final item = _sellerProducts[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailPage(
-                            product: item,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceElevated,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.neutral200),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10),
-                            ),
-                            child: Image.network(
-                              item.imageUrl ?? '',
-                              height: 120,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Container(
-                                height: 120,
-                                color: AppColors.neutral200,
-                                child: const Icon(Icons.image,
-                                    color: AppColors.neutral400),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  item.priceLabel,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  item.condition,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+              IconButton(
+                icon: const Icon(Icons.share, color: Colors.black87),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Tautan profil $displayName disalin!'),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                   );
                 },
               ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header info penjual
+                Container(
+                  color: AppColors.surfaceElevated,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 36,
+                                backgroundColor: AppColors.neutral300,
+                                backgroundImage: avatarImage,
+                                child: avatarImage == null
+                                    ? const Icon(
+                                        Icons.person,
+                                        size: 40,
+                                        color: AppColors.surfaceElevated,
+                                      )
+                                    : null,
+                              ),
+                              Positioned(
+                                bottom: 2,
+                                right: 2,
+                                child: Container(
+                                  width: 14,
+                                  height: 14,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.successBase,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppColors.surfaceElevated,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      displayName,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    const Icon(
+                                      Icons.verified,
+                                      color: Color(0xFF4C8B4A),
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '📍 $displayLocation • Online 10 menit lalu',
+                                  style: const TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${widget.rating} (48 ulasan)',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (user.bio.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfacePage,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.neutral200),
+                          ),
+                          child: Text(
+                            user.bio,
+                            style: const TextStyle(
+                              fontSize: 12.5,
+                              color: AppColors.textSecondary,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      // Tombol Ikuti & Chat ATAU Edit Profil & Keluar
+                      if (isSelf)
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.lime,
+                                  foregroundColor: Colors.black87,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                onPressed: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditProfileScreen(),
+                                    ),
+                                  );
+                                  // TIDAK PERLU setState!
+                                  // ProfileController.notifyListeners() sudah handle rebuild
+                                },
+                                icon: const Icon(Icons.edit_outlined, size: 18),
+                                label: const Text(
+                                  'Edit Profil',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 2,
+                              child: OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppColors.errorBase,
+                                  side: const BorderSide(
+                                      color: AppColors.errorBase, width: 1.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                onPressed: () => _confirmLogout(context),
+                                icon:
+                                    const Icon(Icons.logout_rounded, size: 18),
+                                label: const Text(
+                                  'Keluar',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: _isFollowing
+                                      ? AppColors.lime.withValues(alpha: 0.2)
+                                      : AppColors.surfaceElevated,
+                                  side: BorderSide(
+                                    color: _isFollowing
+                                        ? AppColors.lime700
+                                        : AppColors.neutral400,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                onPressed: () {
+                                  // Wrap setState dengan PostFrameCallback untuk keamanan
+                                  // karena berada di dalam ListenableBuilder
+                                  SchedulerBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    if (mounted) {
+                                      setState(() {
+                                        _isFollowing = !_isFollowing;
+                                      });
+                                    }
+                                  });
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(_isFollowing
+                                          ? 'Berhenti mengikuti ${widget.sellerName}'
+                                          : 'Mengikuti ${widget.sellerName}'),
+                                      behavior: SnackBarBehavior.floating,
+                                      duration: const Duration(seconds: 1),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  _isFollowing
+                                      ? '✓ Mengikuti'
+                                      : '+ Ikuti Penjual',
+                                  style: const TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.lime,
+                                  foregroundColor: Colors.black87,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                ),
+                                onPressed: () {
+                                  _showChatBottomSheet(context);
+                                },
+                                icon: const Icon(Icons.chat_bubble_outline,
+                                    size: 18),
+                                label: const Text(
+                                  'Chat',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      const SizedBox(height: 16),
+                      // Statistik Penjual
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildStatItem('4', 'Produk Dijual'),
+                            _buildVerticalDivider(),
+                            _buildStatItem('36', 'Terjual'),
+                            _buildVerticalDivider(),
+                            _buildStatItem('99%', 'Respon Chat'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Header Daftar Produk
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Semua Produk (${_sellerProducts.length})',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const Text(
+                        'Urutkan: Terbaru',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Grid Produk Penjual
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _sellerProducts.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.72,
+                    ),
+                    itemBuilder: (context, index) {
+                      final item = _sellerProducts[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetailPage(
+                                product: item,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceElevated,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: AppColors.neutral200),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(10),
+                                ),
+                                child: Image.network(
+                                  item.imageUrl ?? '',
+                                  height: 120,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Container(
+                                    height: 120,
+                                    color: AppColors.neutral200,
+                                    child: const Icon(Icons.image,
+                                        color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      item.priceLabel,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      item.condition,
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
             ),
-            const SizedBox(height: 32),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
