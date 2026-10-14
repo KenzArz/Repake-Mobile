@@ -18,7 +18,7 @@ Future<bool?> showLoginPopup(
 }
 
 /// Dialog Pop-up Login RePake.
-///
+/// nyoba jadi kontributor
 /// Mengikuti 2 tahap:
 /// 1. Tampilan awal persis sesuai wireframe PDF (Logo, Teks, tombol "Continue with Google").
 /// 2. Setelah tombol "Continue with Google" ditekan, barulah muncul layar
@@ -76,7 +76,9 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
             Expanded(
               child: Text(
                 'Berhasil masuk sebagai $roleLabel!',
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: AppTextStyles.body().copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -419,7 +421,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
               backgroundColor: avatarBgColor,
               child: Text(
                 avatarInitial,
-                style: TextStyle(
+                style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.w800,
                   fontSize: 16,
                   color: avatarTextColor,
@@ -456,7 +458,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                         ),
                         child: Text(
                           roleBadge,
-                          style: TextStyle(
+                          style: AppTextStyles.smallLabel().copyWith(
                             fontSize: 9.5,
                             fontWeight: FontWeight.w700,
                             color: roleBadgeColor,
