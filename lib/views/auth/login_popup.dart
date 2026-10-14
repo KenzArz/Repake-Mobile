@@ -71,7 +71,8 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle_rounded, color: AppColors.lime, size: 20),
+            const Icon(Icons.check_circle_rounded,
+                color: AppColors.lime, size: 20),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -102,11 +103,11 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           constraints: const BoxConstraints(maxWidth: 380),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surfaceElevated,
               borderRadius: BorderRadius.circular(24),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Color(0x1A000000),
+                  color: AppColors.neutral900.withValues(alpha: 0.1),
                   blurRadius: 24,
                   offset: Offset(0, 10),
                 ),
@@ -214,7 +215,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           height: 50,
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.surfaceElevated,
               foregroundColor: AppColors.charcoal,
               elevation: 0,
               side: const BorderSide(
@@ -346,11 +347,11 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           name: 'Midou_kun',
           email: 'midou.kun@student.unsika.ac.id',
           avatarInitial: 'M',
-          avatarBgColor: const Color(0xFFC3E06D),
+          avatarBgColor: AppColors.lime400,
           avatarTextColor: AppColors.charcoal,
           roleBadge: 'Mahasiswa (User)',
-          roleBadgeBg: const Color(0xFFE8F5D0),
-          roleBadgeColor: const Color(0xFF436015),
+          roleBadgeBg: AppColors.lime100,
+          roleBadgeColor: AppColors.lime900,
           onTap: () => _performSignIn(
             isAdmin: false,
             name: 'Midou_kun',
@@ -367,9 +368,9 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           email: 'admin@unsika.ac.id',
           avatarInitial: 'A',
           avatarBgColor: AppColors.charcoal,
-          avatarTextColor: Colors.white,
+          avatarTextColor: AppColors.textOnDark,
           roleBadge: 'Administrator (Admin)',
-          roleBadgeBg: const Color(0xFFE8EAED),
+          roleBadgeBg: AppColors.neutral100,
           roleBadgeColor: AppColors.charcoal,
           onTap: () => _performSignIn(
             isAdmin: true,
@@ -527,22 +528,22 @@ class _GooglePainter extends CustomPainter {
     final radius = size.width / 2;
 
     final paintBlue = Paint()
-      ..color = const Color(0xFF4285F4)
+      ..color = AppColors.googleBlue
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.5;
 
     final paintRed = Paint()
-      ..color = const Color(0xFFEA4335)
+      ..color = AppColors.googleRed
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.5;
 
     final paintYellow = Paint()
-      ..color = const Color(0xFFFBBC05)
+      ..color = AppColors.googleYellow
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.5;
 
     final paintGreen = Paint()
-      ..color = const Color(0xFF34A853)
+      ..color = AppColors.googleGreen
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.5;
 

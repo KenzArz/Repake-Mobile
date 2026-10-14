@@ -35,8 +35,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final ProfileController _controller;
   late final bool _isLocalController;
 
-  static const Color repakeLime = Color(0xFFC3E06D);
-
   @override
   void initState() {
     super.initState();
@@ -103,7 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void _showImagePickerModal() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surfaceElevated,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -137,7 +135,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: repakeLime.withAlpha(80),
+                      color: AppColors.lime.withAlpha(80),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -162,7 +160,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: repakeLime.withAlpha(80),
+                      color: AppColors.lime.withAlpha(80),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -336,10 +334,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 4),
-                boxShadow: const [
+                border: Border.all(color: AppColors.surfaceElevated, width: 4),
+                boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: AppColors.neutral900.withValues(alpha: 0.12),
                     blurRadius: 10,
                     offset: Offset(0, 4),
                   ),
@@ -353,7 +351,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ? const Icon(
                         Icons.person,
                         size: 58,
-                        color: Colors.white,
+                        color: AppColors.textOnDark,
                       )
                     : null,
               ),
@@ -366,12 +364,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: repakeLime,
+                    color: AppColors.lime,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2.5),
-                    boxShadow: const [
+                    border: Border.all(
+                      color: AppColors.surfaceElevated,
+                      width: 2.5,
+                    ),
+                    boxShadow: [
                       BoxShadow(
-                        color: Colors.black26,
+                        color: AppColors.neutral900.withValues(alpha: 0.26),
                         blurRadius: 6,
                         offset: Offset(0, 2),
                       ),
@@ -414,9 +415,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         color: AppColors.surfaceElevated,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.neutral200),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x06000000),
+            color: AppColors.neutral900.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
@@ -537,7 +538,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       height: 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: repakeLime,
+          backgroundColor: AppColors.lime,
           foregroundColor: AppColors.charcoal,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -601,7 +602,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorBase,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.textOnDark,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),

@@ -17,7 +17,7 @@ class AppTheme {
       outline: AppColors.borderStrong,
       outlineVariant: AppColors.borderDefault,
       error: AppColors.errorBase,
-      onError: Colors.white,
+      onError: AppColors.textOnDark,
       inverseSurface: AppColors.surfaceInverse,
       onInverseSurface: AppColors.textOnInverse,
     );

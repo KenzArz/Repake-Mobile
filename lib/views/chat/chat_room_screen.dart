@@ -501,13 +501,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
+                    color: AppColors.neutral900.withValues(alpha: 0.15),
                     blurRadius: 12,
                     spreadRadius: 2,
                     offset: const Offset(0, 4),
                   ),
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
+                    color: AppColors.neutral900.withValues(alpha: 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),

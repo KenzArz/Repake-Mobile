@@ -60,7 +60,9 @@ class ProductGallery extends StatelessWidget {
                                 color: AppColors.surfaceElevated, width: 1.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.26),
+                            color: AppColors.neutral900.withValues(
+                              alpha: 0.26,
+                            ),
                             blurRadius: 6,
                             offset: const Offset(0, 2),
                           ),
