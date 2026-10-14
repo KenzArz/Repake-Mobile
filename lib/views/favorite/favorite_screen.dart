@@ -91,9 +91,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     // Show snackbar feedback dengan undo action
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(
+        content: Text(
           '💔 Produk dihapus dari Favorit',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: AppTextStyles.body().copyWith(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.charcoal,
         behavior: SnackBarBehavior.floating,
@@ -163,9 +163,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ListTile(
                 leading:
                     const Icon(Icons.flag_outlined, color: AppColors.errorBase),
-                title: const Text(
+                title: Text(
                   'Laporkan Produk',
-                  style: TextStyle(color: AppColors.errorBase),
+                  style: AppTextStyles.label().copyWith(
+                    color: AppColors.errorBase,
+                  ),
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -356,9 +358,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 ),
               ),
               icon: const Icon(Icons.explore_outlined),
-              label: const Text(
+              label: Text(
                 'Jelajahi Produk',
-                style: TextStyle(
+                style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
