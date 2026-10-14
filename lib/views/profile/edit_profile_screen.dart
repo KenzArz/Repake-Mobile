@@ -571,25 +571,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
             SizedBox(width: 8),
             Text(
               'Konfirmasi Keluar',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: AppTextStyles.h5().copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
           ],
         ),
-        content: const Text(
+        content: Text(
           'Apakah Anda yakin ingin keluar dari akun RePake Anda?',
-          style: TextStyle(fontSize: 14.5),
+          style: AppTextStyles.body().copyWith(fontSize: 14.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal',
-                style: TextStyle(color: AppColors.neutral700)),
+            child: Text(
+              'Batal',
+              style: AppTextStyles.label().copyWith(
+                color: AppColors.neutral700,
+              ),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -646,4 +653,3 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-

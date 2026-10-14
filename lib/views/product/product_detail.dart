@@ -4,6 +4,7 @@ import '../../controllers/AuthController.dart';
 import '../../controllers/ProductDetailController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 import '../auth/login_popup.dart';
 import 'widgets/product_detail_app_bar.dart';
 import 'widgets/product_gallery.dart';
@@ -83,7 +84,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           _controller.isFavorite
               ? '⭐ Produk ditambahkan ke Favorit!'
               : 'Produk dihapus dari Favorit',
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: AppTextStyles.body().copyWith(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.charcoal,
         behavior: SnackBarBehavior.floating,
@@ -115,7 +116,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       SnackBar(
         content: Text(
           resultMsg,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: AppTextStyles.body().copyWith(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.charcoal,
         behavior: SnackBarBehavior.floating,
@@ -175,14 +176,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         children: [
                           Text(
                             _controller.product.sellerName,
-                            style: const TextStyle(
+                            style: AppTextStyles.label().copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Text(
+                          Text(
                             'Online • Balas dalam beberapa menit',
-                            style: TextStyle(
+                            style: AppTextStyles.caption().copyWith(
                               fontSize: 12,
                               color: AppColors.textSecondary,
                             ),
@@ -198,9 +199,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ],
               ),
               const Divider(height: 24),
-              const Text(
+              Text(
                 'Kirim Pesan ke Penjual',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: AppTextStyles.label().copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
               const SizedBox(height: 8),
               TextField(
@@ -255,9 +259,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     );
                   },
                   icon: const Icon(Icons.send, size: 18),
-                  label: const Text(
+                  label: Text(
                     'Kirim Pesan Sekarang',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: AppTextStyles.label().copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
               ),
@@ -294,8 +301,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               );
             },
-            child: const Text('Laporkan',
-                style: TextStyle(color: AppColors.textOnDark)),
+            child: Text(
+              'Laporkan',
+              style: AppTextStyles.label().copyWith(
+                color: AppColors.textOnDark,
+              ),
+            ),
           ),
         ],
       ),

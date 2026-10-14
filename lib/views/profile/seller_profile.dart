@@ -7,6 +7,7 @@ import '../../controllers/AuthController.dart';
 import '../../controllers/ProfileController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 import '../product/product_detail.dart';
 import '../product/widgets/product_card.dart';
 import 'edit_profile_screen.dart';
@@ -40,25 +41,32 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
             SizedBox(width: 8),
             Text(
               'Konfirmasi Keluar',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: AppTextStyles.h5().copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
           ],
         ),
-        content: const Text(
+        content: Text(
           'Apakah Anda yakin ingin keluar dari akun RePake Anda?',
-          style: TextStyle(fontSize: 14.5),
+          style: AppTextStyles.body().copyWith(fontSize: 14.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal',
-                style: TextStyle(color: AppColors.neutral700)),
+            child: Text(
+              'Batal',
+              style: AppTextStyles.label().copyWith(
+                color: AppColors.neutral700,
+              ),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -195,7 +203,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
             ),
             title: Text(
               displayName,
-              style: const TextStyle(
+              style: AppTextStyles.h5().copyWith(
                 color: Colors.black87,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -284,7 +292,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   children: [
                                     Text(
                                       displayName,
-                                      style: const TextStyle(
+                                      style: AppTextStyles.h5().copyWith(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -300,7 +308,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   '📍 $displayLocation • Online 10 menit lalu',
-                                  style: TextStyle(
+                                  style: AppTextStyles.caption().copyWith(
                                     color: Colors.grey.shade600,
                                     fontSize: 13,
                                   ),
@@ -316,7 +324,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                     const SizedBox(width: 4),
                                     Text(
                                       '${widget.rating} (48 ulasan)',
-                                      style: const TextStyle(
+                                      style: AppTextStyles.label().copyWith(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13,
                                       ),
@@ -343,7 +351,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                           ),
                           child: Text(
                             user.bio,
-                            style: TextStyle(
+                            style: AppTextStyles.body().copyWith(
                               fontSize: 12.5,
                               color: Colors.grey.shade700,
                               height: 1.4,
@@ -380,9 +388,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   setState(() {});
                                 },
                                 icon: const Icon(Icons.edit_outlined, size: 18),
-                                label: const Text(
+                                label: Text(
                                   'Edit Profil',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: AppTextStyles.label().copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -403,9 +413,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 onPressed: () => _confirmLogout(context),
                                 icon:
                                     const Icon(Icons.logout_rounded, size: 18),
-                                label: const Text(
+                                label: Text(
                                   'Keluar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: AppTextStyles.label().copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -449,7 +461,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   _isFollowing
                                       ? '✓ Mengikuti'
                                       : '+ Ikuti Penjual',
-                                  style: const TextStyle(
+                                  style: AppTextStyles.label().copyWith(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -474,9 +486,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 },
                                 icon: const Icon(Icons.chat_bubble_outline,
                                     size: 18),
-                                label: const Text(
+                                label: Text(
                                   'Chat',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: AppTextStyles.label().copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -495,7 +509,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                     children: [
                       Text(
                         'Semua Produk (${_sellerProducts.length})',
-                        style: const TextStyle(
+                        style: AppTextStyles.h5().copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
@@ -503,7 +517,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                       ),
                       Text(
                         'Urutkan: Terbaru',
-                        style: TextStyle(
+                        style: AppTextStyles.caption().copyWith(
                           fontSize: 12,
                           color: Colors.grey.shade600,
                         ),
@@ -649,9 +663,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               ListTile(
                 leading:
                     const Icon(Icons.flag_outlined, color: AppColors.errorBase),
-                title: const Text(
+                title: Text(
                   'Laporkan Produk',
-                  style: TextStyle(color: AppColors.errorBase),
+                  style: AppTextStyles.label().copyWith(
+                    color: AppColors.errorBase,
+                  ),
                 ),
                 onTap: () {
                   Navigator.pop(ctx);
@@ -694,7 +710,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               children: [
                 Text(
                   'Chat dengan ${widget.sellerName}',
-                  style: const TextStyle(
+                  style: AppTextStyles.label().copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
