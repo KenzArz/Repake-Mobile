@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/ProductModel.dart';
@@ -16,7 +19,8 @@ class ProductCard extends StatelessWidget {
     this.onTap,
     this.onFavoriteTap,
     this.onMoreTap,
-    this.titleMaxLines = 1,
+    this.titleMaxLines = 2,
+    this.sellerAvatarImage,
   });
 
   final ProductModel product;
@@ -24,6 +28,7 @@ class ProductCard extends StatelessWidget {
   final VoidCallback? onFavoriteTap; // Aksi saat tombol favorit ditekan
   final VoidCallback? onMoreTap; // Aksi saat tombol titik tiga ditekan
   final int titleMaxLines;
+  final ImageProvider? sellerAvatarImage;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,7 @@ class ProductCard extends StatelessWidget {
       color: AppColors.surfaceElevated, // Warna background kartu
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12), // Lengkungan sudut kartu
+        side: const BorderSide(color: AppColors.borderDefault),
       ),
       clipBehavior: Clip.antiAlias, // Memotong child agar ikutan melengkung
       child: InkWell(
@@ -41,7 +47,11 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 1. Informasi Penjual (Foto, Nama, Lokasi, Titik Tiga)
-              _SellerRow(product: product, onMoreTap: onMoreTap),
+              _SellerRow(
+                product: product,
+                onMoreTap: onMoreTap,
+                sellerAvatarImage: sellerAvatarImage,
+              ),
               const SizedBox(height: 8),
 
               // 2. Gambar Produk + Badge Status + Tombol Favorit
@@ -58,17 +68,22 @@ class ProductCard extends StatelessWidget {
                 overflow: TextOverflow
                     .ellipsis, // Bikin teks jadi '...' kalau kepanjangan
                 style: AppTextStyles.body().copyWith(
+                  fontSize: 13.5,
+                  height: 1.3,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 4),
 
               // 4. Harga Produk
               Text(
                 product.priceLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.h5(),
+                style: AppTextStyles.h5().copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 8),
 
@@ -90,22 +105,43 @@ class ProductCard extends StatelessWidget {
 /// ---------------------------------------------------------------------------
 /// Menampilkan foto profil penjual, nama, lokasi/waktu posting, dan opsi titik tiga.
 class _SellerRow extends StatelessWidget {
-  const _SellerRow({required this.product, this.onMoreTap});
+  const _SellerRow({
+    required this.product,
+    this.onMoreTap,
+    this.sellerAvatarImage,
+  });
 
   final ProductModel product;
   final VoidCallback? onMoreTap;
+  final ImageProvider? sellerAvatarImage;
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider? avatar = sellerAvatarImage;
+    if (avatar == null &&
+        product.sellerAvatarUrl != null &&
+        product.sellerAvatarUrl!.isNotEmpty) {
+      if (kIsWeb ||
+          product.sellerAvatarUrl!.startsWith('http') ||
+          product.sellerAvatarUrl!.startsWith('blob:')) {
+        avatar = NetworkImage(product.sellerAvatarUrl!);
+      } else {
+        final f = File(product.sellerAvatarUrl!);
+        if (f.existsSync()) {
+          avatar = FileImage(f);
+        } else {
+          avatar = NetworkImage(product.sellerAvatarUrl!);
+        }
+      }
+    }
+
     return Row(
       children: [
         // Foto profil bulat penjual
         CircleAvatar(
           radius: 12,
           backgroundColor: AppColors.neutral200,
-          backgroundImage: product.sellerAvatarUrl != null
-              ? NetworkImage(product.sellerAvatarUrl!)
-              : null,
+          backgroundImage: avatar,
         ),
         const SizedBox(width: 8),
 
