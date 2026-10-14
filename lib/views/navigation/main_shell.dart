@@ -22,10 +22,16 @@ class NavItemData {
 /// [items] (menu) dan [pages] (halaman). Urutan [items] harus sama dengan
 /// urutan [pages].
 class MainShell extends StatefulWidget {
-  const MainShell({super.key, required this.items, required this.pages});
+  const MainShell({
+    super.key,
+    required this.items,
+    required this.pages,
+    this.onBeforeChange,
+  });
 
   final List<NavItemData> items;
   final List<Widget> pages;
+  final bool Function(int index)? onBeforeChange;
 
   @override
   State<MainShell> createState() => _MainShellState();
@@ -56,7 +62,13 @@ class _MainShellState extends State<MainShell> {
           : _BottomPillNav(
               items: widget.items,
               index: _index,
-              onChanged: (i) => setState(() => _index = i),
+              onChanged: (i) {
+                if (widget.onBeforeChange != null &&
+                    !widget.onBeforeChange!(i)) {
+                  return;
+                }
+                setState(() => _index = i);
+              },
             ),
     );
   }

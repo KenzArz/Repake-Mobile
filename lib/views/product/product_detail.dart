@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/AuthController.dart';
 import '../../controllers/ProductDetailController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
+import '../auth/login_popup.dart';
 import 'widgets/product_detail_app_bar.dart';
 import 'widgets/product_gallery.dart';
 import 'widgets/product_info_section.dart';
@@ -67,6 +69,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   // ---------------------------------------------------------------------------
 
   void _toggleFavorite() {
+    if (AuthController.instance.isGuest) {
+      showLoginPopup(context);
+      return;
+    }
+
     _controller.toggleFavorite();
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -87,6 +94,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   void _submitOffer() {
+    if (AuthController.instance.isGuest) {
+      showLoginPopup(context);
+      return;
+    }
+
     final resultMsg = _controller.submitOffer();
     if (resultMsg == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -114,6 +126,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   void _openChatDialog() {
+    if (AuthController.instance.isGuest) {
+      showLoginPopup(context);
+      return;
+    }
+
     final messageController = TextEditingController(
       text:
           'Halo kak, apakah barang "${_controller.product.title.replaceAll('\n', ' ')}" masih ada?',

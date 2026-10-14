@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../views/product/product_detail.dart';
+import '../controllers/AuthController.dart';
 import '../models/ProductModel.dart';
+import '../views/auth/login_popup.dart';
+import '../views/product/product_detail.dart';
 
 /// Centralized navigation helper untuk menghindari code duplication.
 /// Single source of truth untuk semua navigasi dalam app.
@@ -14,13 +16,31 @@ class NavigationHelper {
   /// - TopAppBar onProfileTap
   /// - Product card seller tap
   /// - Chat user avatar tap
+  ///
+  /// Jika user adalah guest, akan menampilkan login popup terlebih dahulu.
   static Future<void> toProfile(BuildContext context, {String? userId}) {
+    // Cek apakah user adalah guest
+    if (AuthController.instance.isGuest) {
+      // Tampilkan login popup dari temanmu
+      return showLoginPopup(context).then((success) {
+        // Jika login berhasil, buka profile
+        if (success == true && context.mounted) {
+          return Navigator.push<void>(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SellerProfilePage(isOwnProfile: true),
+            ),
+          );
+        }
+      });
+    }
+
+    // User sudah login, langsung buka profile
     // TODO: Jika userId provided, load specific user profile
-    // Untuk sekarang, selalu buka SellerProfilePage
     return Navigator.push<void>(
       context,
       MaterialPageRoute(
-        builder: (context) => const SellerProfilePage(),
+        builder: (context) => SellerProfilePage(isOwnProfile: userId == null),
       ),
     );
   }
