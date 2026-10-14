@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/ReportModel.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../widgets/wireframe_overlay.dart';
 
 /// Label kecil berwarna untuk jenis report (Penipuan, Spam, dst).
 /// [compact] = ukuran lebih kecil, dipakai di dalam tabel.
@@ -40,7 +41,7 @@ class ReportTypeChip extends StatelessWidget {
         color: bg,
         borderRadius: BorderRadius.circular(compact ? 8 : 999),
       ),
-      child: Text(
+      child: WText(
         type.label,
         textAlign: TextAlign.center,
         maxLines: compact ? 2 : 1,

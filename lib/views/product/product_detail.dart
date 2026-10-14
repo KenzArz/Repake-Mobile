@@ -10,6 +10,7 @@ import 'widgets/product_detail_app_bar.dart';
 import 'widgets/product_gallery.dart';
 import 'widgets/product_info_section.dart';
 import 'widgets/similar_products_section.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 // Re-export SellerProfilePage & ProductDetailController untuk kemudahan akses
 export '../../controllers/ProductDetailController.dart';
@@ -80,7 +81,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
+        content: WText(
           _controller.isFavorite
               ? '⭐ Produk ditambahkan ke Favorit!'
               : 'Produk dihapus dari Favorit',
@@ -104,7 +105,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (resultMsg == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Silakan masukkan nominal penawaran harga'),
+          content: WText('Silakan masukkan nominal penawaran harga'),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -114,7 +115,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
+        content: WText(
           resultMsg,
           style: AppTextStyles.body().copyWith(fontWeight: FontWeight.w600),
         ),
@@ -161,10 +162,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
+                      const WAvatar(
                         radius: 18,
-                        backgroundColor: AppColors.lime,
-                        child: Icon(
+                        backgroundColor: Color(0xFFE0E0E0),
+                        child: WIcon(
                           Icons.person,
                           size: 20,
                           color: AppColors.charcoal,
@@ -174,14 +175,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          WText(
                             _controller.product.sellerName,
                             style: AppTextStyles.label().copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
+                          WText(
                             'Online • Balas dalam beberapa menit',
                             style: AppTextStyles.caption().copyWith(
                               fontSize: 12,
@@ -193,13 +194,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ],
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close),
+                    icon: const WIcon(Icons.close),
                     onPressed: () => Navigator.pop(ctx),
                   ),
                 ],
               ),
               const Divider(height: 24),
-              Text(
+              WText(
                 'Kirim Pesan ke Penjual',
                 style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.bold,
@@ -235,7 +236,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 height: 48,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.lime,
+                    backgroundColor: Color(0xFFE0E0E0),
                     foregroundColor: AppColors.charcoal,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -248,7 +249,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     Navigator.pop(ctx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
+                        content: WText(
                             '💬 Pesan berhasil dikirim ke ${_controller.product.sellerName}!'),
                         backgroundColor: AppColors.charcoal,
                         behavior: SnackBarBehavior.floating,
@@ -258,8 +259,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.send, size: 18),
-                  label: Text(
+                  icon: const WIcon(Icons.send, size: 18),
+                  label: WText(
                     'Kirim Pesan Sekarang',
                     style: AppTextStyles.label().copyWith(
                       fontWeight: FontWeight.bold,
@@ -279,14 +280,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Laporkan Produk'),
-        content: Text(
+        title: const WText('Laporkan Produk'),
+        content: WText(
           'Apakah Anda ingin melaporkan produk "${_controller.product.title.replaceAll('\n', ' ')}" dari penjual ${_controller.product.sellerName}?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal'),
+            child: const WText('Batal'),
           ),
           ElevatedButton(
             style:
@@ -296,12 +297,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content:
-                      Text('Laporan Anda telah dikirim dan sedang ditinjau.'),
+                      WText('Laporan Anda telah dikirim dan sedang ditinjau.'),
                   behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            child: Text(
+            child: WText(
               'Laporkan',
               style: AppTextStyles.label().copyWith(
                 color: AppColors.textOnDark,
@@ -437,7 +438,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                               .showSnackBar(
                                             const SnackBar(
                                               content:
-                                                  Text('Disimpan ke Favorit'),
+                                                  WText('Disimpan ke Favorit'),
                                               duration: Duration(seconds: 1),
                                             ),
                                           );

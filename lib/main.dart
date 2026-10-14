@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'controllers/AuthController.dart';
 import 'models/UserRole.dart';
@@ -35,7 +34,6 @@ class _AppWrapper extends StatefulWidget {
 class _AppWrapperState extends State<_AppWrapper>
     with TickerProviderStateMixin {
   bool _showSplash = true;
-  Widget? _prebuiltHome;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
@@ -52,23 +50,6 @@ class _AppWrapperState extends State<_AppWrapper>
       parent: _fadeController,
       curve: Curves.easeInOut,
     );
-
-    // Pre-build home screen di background
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _preBuildHomeScreen();
-    });
-  }
-
-  void _preBuildHomeScreen() {
-    if (!mounted) return;
-
-    final role = AuthController.instance.role.value;
-    _prebuiltHome =
-        role == UserRole.admin ? const AdminNavbar() : const UserNavbar();
-
-    setState(() {
-      // Trigger offscreen build
-    });
   }
 
   void _onSplashComplete() {
@@ -89,29 +70,34 @@ class _AppWrapperState extends State<_AppWrapper>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Home screen pre-rendered (opacity 0 saat splash)
-        if (_prebuiltHome != null)
-          Opacity(
-            opacity: _showSplash ? 0.0 : 1.0,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: _prebuiltHome!,
-            ),
-          ),
+    return ValueListenableBuilder<UserRole>(
+      valueListenable: AuthController.instance.role,
+      builder: (context, role, _) {
+        final homeScreen =
+            role == UserRole.admin ? const AdminNavbar() : const UserNavbar();
 
-        // Splash screen fade out
-        if (_showSplash)
-          FadeTransition(
-            opacity:
-                Tween<double>(begin: 1.0, end: 0.0).animate(_fadeAnimation),
-            child: SplashScreen(
-              key: const ValueKey('splash'),
-              onComplete: _onSplashComplete,
-            ),
-          ),
-      ],
+        return Stack(
+          children: [
+            // Home screen (rebuild when role changes)
+            if (!_showSplash)
+              FadeTransition(
+                opacity: _fadeAnimation,
+                child: homeScreen,
+              ),
+
+            // Splash screen fade out
+            if (_showSplash)
+              FadeTransition(
+                opacity:
+                    Tween<double>(begin: 1.0, end: 0.0).animate(_fadeAnimation),
+                child: SplashScreen(
+                  key: const ValueKey('splash'),
+                  onComplete: _onSplashComplete,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

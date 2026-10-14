@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Halaman "Jual Produk" (versi mobile).
 ///
@@ -91,7 +90,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void _showSnack(String message) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+      ..showSnackBar(SnackBar(content: WText(message)));
   }
 
   /// Buka galeri lalu tambahkan gambar (sampai total 3).
@@ -199,7 +198,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Jual Produk', style: AppTextStyles.h3()),
+                WText('Jual Produk', style: AppTextStyles.h3()),
                 const SizedBox(height: 16),
 
                 // 1. Kotak pilih gambar
@@ -229,11 +228,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget _buildReorderHint() {
     return Row(
       children: [
-        const Icon(Icons.drag_indicator,
+        const WIcon(Icons.drag_indicator,
             size: 18, color: AppColors.textPrimary),
         const SizedBox(width: 4),
         Expanded(
-          child: Text(
+          child: WText(
             'Tahan lalu geser gambar untuk mengatur urutan tampilan.',
             style: AppTextStyles.label(),
           ),
@@ -310,7 +309,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.sentences,
               style: AppTextStyles.body(),
-              decoration: _decoration(hint: 'Masukkan nama barang...'),
+              decoration: _decoration(hint: 'Nama produk'),
               validator: (v) => (v == null || v.trim().isEmpty)
                   ? 'Nama produk wajib diisi'
                   : null,
@@ -322,13 +321,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
             DropdownButtonFormField<String>(
               initialValue: _category,
               isExpanded: true,
-              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+              icon: const WIcon(Icons.keyboard_arrow_down_rounded),
               borderRadius: BorderRadius.circular(8),
               style: AppTextStyles.body(),
-              decoration: _decoration(hint: 'Pilih kategori...'),
+              decoration: _decoration(hint: 'Pilih kategori'),
               items: [
                 for (final c in _categories)
-                  DropdownMenuItem(value: c, child: Text(c)),
+                  DropdownMenuItem(value: c, child: WText(c)),
               ],
               onChanged: (v) => setState(() => _category = v),
               validator: (v) => v == null ? 'Pilih salah satu kategori' : null,
@@ -361,8 +360,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               style: AppTextStyles.body(),
               decoration: _decoration(
-                hint: 'Masukkan harga...',
-                prefix: Text(
+                hint: 'Harga produk',
+                prefix: WText(
                   'Rp.',
                   style: AppTextStyles.label()
                       .copyWith(fontWeight: FontWeight.w700),
@@ -386,8 +385,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               textCapitalization: TextCapitalization.sentences,
               style: AppTextStyles.body(),
               decoration: _decoration(
-                hint: 'Jelaskan kondisi, ukuran, kelengkapan, kekurangan, '
-                    'atau hal lain yang perlu diketahui pembeli...',
+                hint: 'Deskripsi produk',
               ),
             ),
             gap,
@@ -400,8 +398,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
               style: AppTextStyles.body(),
               // TODO: sambungkan ke pencarian lokasi / peta (autocomplete).
               decoration: _decoration(
-                hint: 'Cari lokasi atau area...',
-                prefix: const Icon(Icons.search,
+                hint: 'Lokasi area',
+                prefix: const WIcon(Icons.search,
                     size: 20, color: AppColors.textSecondary),
               ),
               validator: (v) => (v == null || v.trim().isEmpty)
@@ -412,7 +410,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
             // --- Patokan Lokasi (boleh kosong) ---
             const _FieldLabel('Patokan Lokasi'),
-            Text(
+            WText(
               'Tambahkan patokan agar pembeli lebih mudah menemukan lokasi.',
               style: AppTextStyles.label(),
             ),
@@ -432,14 +430,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: FilledButton(
                 onPressed: _submit,
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.charcoal,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   textStyle: AppTextStyles.h5().copyWith(fontSize: 16),
                 ),
-                child: const Text('Pasang Barang'),
+                child: const WText('Pasang Barang'),
               ),
             ),
           ],
@@ -494,7 +492,7 @@ class _FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
+      child: WText(
         text,
         style: AppTextStyles.h5().copyWith(fontSize: 16),
       ),
@@ -502,7 +500,7 @@ class _FieldLabel extends StatelessWidget {
   }
 }
 
-/// Kotak hijau muda besar "Pilih Sampai 3 Gambar Produk". Ditekan = buka galeri.
+/// Kotak wireframe abu-abu "Pilih Sampai 3 Gambar Produk". Ditekan = buka galeri.
 class _ImagePickerBox extends StatelessWidget {
   const _ImagePickerBox({required this.onTap});
 
@@ -513,10 +511,10 @@ class _ImagePickerBox extends StatelessWidget {
     return SizedBox(
       width: double.infinity, // penuh selebar layar
       child: Material(
-        color: AppColors.lime100,
+        color: Color(0xFFE0E0E0), // Grey card color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.neutral200, width: 1.5),
+          side: const BorderSide(color: AppColors.neutral300, width: 1.5),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -526,32 +524,42 @@ class _ImagePickerBox extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Kotak hitam berisi ikon gambar.
+                // Kotak abu-abu berisi ikon gambar.
                 Container(
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: AppColors.charcoal,
+                    color: Color(0xFFBDBDBD),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(
-                    Icons.image_outlined,
-                    color: AppColors.textOnDark,
-                    size: 30,
+                  child: Center(
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  'Pilih Sampai 3 Gambar Produk',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.h5(),
+                Container(
+                  width: 250,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFBDBDBD),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Gambar pertama akan digunakan sebagai cover produk.',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.caption()
-                      .copyWith(color: AppColors.textSecondary),
+                const SizedBox(height: 8),
+                Container(
+                  width: 200,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFBDBDBD),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ],
             ),
@@ -586,7 +594,7 @@ class _ImageTile extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: isCover
           ? BoxDecoration(
-              color: AppColors.lime200,
+              color: Color(0xFFE0E0E0),
               borderRadius: BorderRadius.circular(16),
             )
           : null,
@@ -601,16 +609,22 @@ class _ImageTile extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.file(
-                    File(file.path),
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: AppColors.neutral200,
-                      child: const Icon(Icons.broken_image_outlined),
+                  child: Container(
+                    color: Color(
+                        0xFFE0E0E0), // Grey card untuk image preview
+                    child: Center(
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                // Tombol hapus (bulat merah, pojok kanan atas).
+                // Tombol hapus (bulat abu-abu, pojok kanan atas).
                 Positioned(
                   top: 4,
                   right: 4,
@@ -619,12 +633,20 @@ class _ImageTile extends StatelessWidget {
                     child: Container(
                       width: 22,
                       height: 22,
-                      decoration: const BoxDecoration(
-                        color: AppColors.errorBase,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF9E9E9E), // Grey delete button
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.close,
-                          size: 14, color: AppColors.textOnDark),
+                      child: Center(
+                        child: Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[600],
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -637,7 +659,7 @@ class _ImageTile extends StatelessWidget {
             height: 22,
             child: isCover
                 ? Center(
-                    child: Text(
+                    child: WText(
                       'Cover',
                       style: AppTextStyles.label()
                           .copyWith(fontWeight: FontWeight.w700),
@@ -666,10 +688,10 @@ class _ChoicePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? AppColors.lime : Colors.transparent,
+      color: selected ? Color(0xFFE0E0E0) : Colors.transparent,
       shape: StadiumBorder(
         side: BorderSide(
-          color: selected ? AppColors.lime : AppColors.textPrimary,
+          color: selected ? Color(0xFFE0E0E0) : AppColors.textPrimary,
         ),
       ),
       child: InkWell(
@@ -677,7 +699,7 @@ class _ChoicePill extends StatelessWidget {
         customBorder: const StadiumBorder(), // efek tekan mengikuti bentuk pil
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
+          child: WText(
             label,
             style: AppTextStyles.label().copyWith(
               fontWeight: selected ? FontWeight.w700 : FontWeight.w500,

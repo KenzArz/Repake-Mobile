@@ -9,6 +9,7 @@ import 'widgets/chat_bubble.dart';
 import 'widgets/offer_action_sheet.dart';
 import 'widgets/offer_bubble.dart';
 import 'widgets/product_card_chat.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Halaman chat room 1-on-1 dengan product card dan offer system.
 class ChatRoomScreen extends StatefulWidget {
@@ -272,7 +273,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         backgroundColor: AppColors.surfaceElevated,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: const WIcon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
@@ -286,7 +287,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.borderDefault),
               ),
-              child: const Icon(
+              child: const WIcon(
                 Icons.person,
                 size: 20,
                 color: AppColors.textSecondary,
@@ -298,7 +299,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  WText(
                     otherUserName,
                     style: AppTextStyles.label().copyWith(
                       fontSize: 15,
@@ -306,7 +307,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       color: AppColors.textPrimary,
                     ),
                   ),
-                  Text(
+                  WText(
                     'Online 2 jam lalu',
                     style: AppTextStyles.caption().copyWith(
                       fontSize: 11,
@@ -320,7 +321,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.more_vert, color: AppColors.textPrimary),
+            icon: const WIcon(Icons.more_vert, color: AppColors.textPrimary),
             onPressed: () {
               // TODO: menu chat options
             },
@@ -354,7 +355,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           Expanded(
             child: _messages.isEmpty
                 ? Center(
-                    child: Text(
+                    child: WText(
                       'Mulai percakapan',
                       style: AppTextStyles.body()
                           .copyWith(color: AppColors.textMuted),
@@ -422,7 +423,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   // Attach button
                   IconButton(
                     onPressed: _showAttachOptions,
-                    icon: Icon(
+                    icon: WIcon(
                       _showAttachMenu
                           ? Icons.close
                           : Icons.attach_file_rounded,
@@ -476,7 +477,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         color: AppColors.neutral300,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: const WIcon(
                         Icons.send_rounded,
                         size: 20,
                         color: AppColors.neutral500,
@@ -521,7 +522,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   _AttachOption(
                     icon: Icons.image_outlined,
                     label: 'Gambar',
-                    color: AppColors.lime700,
+                    color: Color(0xFF757575),
                     onTap: _onAttachImage,
                   ),
                   const SizedBox(height: 4),
@@ -570,10 +571,10 @@ class _AttachOption extends StatelessWidget {
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: color ?? AppColors.lime700,
+                color: color ?? Color(0xFF757575),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: WIcon(
                 icon,
                 size: 16,
                 color: AppColors.textOnDark,
@@ -581,7 +582,7 @@ class _AttachOption extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             // Label di samping
-            Text(
+            WText(
               label,
               style: AppTextStyles.body().copyWith(
                 fontSize: 14,

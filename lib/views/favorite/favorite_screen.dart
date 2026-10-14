@@ -5,6 +5,7 @@ import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
+import '../../widgets/wireframe_overlay.dart';
 import '../auth/login_popup.dart';
 import '../navigation/top_appBar.dart';
 import '../product/widgets/product_card.dart';
@@ -60,9 +61,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           'Bekas pakai'
         ][i % 3],
         status: 'Dijual',
-        isFavorite: true, // Semua item di sini sudah favorite
-        imageUrl:
-            'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        isFavorite: true,
+        // imageUrl: null,  // Hapus image URL
       ),
     );
   }
@@ -91,7 +91,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     // Show snackbar feedback dengan undo action
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
+        content: WText(
           '💔 Produk dihapus dari Favorit',
           style: AppTextStyles.body().copyWith(fontWeight: FontWeight.w600),
         ),
@@ -101,7 +101,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         duration: const Duration(seconds: 3),
         action: SnackBarAction(
           label: 'BATAL',
-          textColor: AppColors.lime,
+          textColor: Color(0xFFE0E0E0),
           onPressed: () {
             // Restore item (undo action)
             setState(() {
@@ -149,12 +149,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ListTile(
                 leading:
                     const Icon(Icons.share_outlined, color: AppColors.charcoal),
-                title: const Text('Bagikan Produk'),
+                title: const WText('Bagikan Produk'),
                 onTap: () {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Tautan "${product.title}" disalin!'),
+                      content: WText('Tautan "${product.title}" disalin!'),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -163,7 +163,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ListTile(
                 leading:
                     const Icon(Icons.flag_outlined, color: AppColors.errorBase),
-                title: Text(
+                title: WText(
                   'Laporkan Produk',
                   style: AppTextStyles.label().copyWith(
                     color: AppColors.errorBase,
@@ -173,7 +173,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Laporan dikirim. Terima kasih!'),
+                      content: WText('Laporan dikirim. Terima kasih!'),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -193,10 +193,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(text, style: AppTextStyles.h4()),
+          WText(text, style: AppTextStyles.h4()),
           if (subtitle != null) ...[
             const SizedBox(height: 4),
-            Text(
+            WText(
               subtitle,
               style: AppTextStyles.body().copyWith(
                 fontSize: 13,
@@ -314,23 +314,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             const SizedBox(height: 24),
 
             // Judul
-            Text(
+            WText(
               'Belum Ada Favorit',
               style: AppTextStyles.h3().copyWith(
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
 
             // Deskripsi
-            Text(
+            WText(
               'Kamu belum menambahkan produk ke favorit.\nMulai jelajahi dan tandai produk yang kamu suka!',
               style: AppTextStyles.body().copyWith(
                 color: AppColors.neutral600,
                 height: 1.5,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
 
@@ -347,7 +345,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 );
               },
               style: FilledButton.styleFrom(
-                backgroundColor: AppColors.lime,
+                backgroundColor: Color(0xFFE0E0E0),
                 foregroundColor: AppColors.charcoal,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 32,
@@ -358,7 +356,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 ),
               ),
               icon: const Icon(Icons.explore_outlined),
-              label: Text(
+              label: WText(
                 'Jelajahi Produk',
                 style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.bold,

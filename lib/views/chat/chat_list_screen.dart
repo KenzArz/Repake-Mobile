@@ -7,6 +7,7 @@ import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
 import '../navigation/top_appBar.dart';
 import 'chat_room_screen.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Filter untuk daftar chat.
 enum ChatFilter {
@@ -219,10 +220,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.chat_bubble_outline,
+                          const WIcon(Icons.chat_bubble_outline,
                               size: 48, color: AppColors.neutral400),
                           const SizedBox(height: 12),
-                          Text(
+                          WText(
                             'Belum ada chat',
                             style: AppTextStyles.h5()
                                 .copyWith(color: AppColors.textMuted),
@@ -283,15 +284,15 @@ class _FilterDropdown extends StatelessWidget {
               for (final filter in ChatFilter.values)
                 PopupMenuItem(
                   value: filter,
-                  child: Text(filter.label, style: AppTextStyles.body()),
+                  child: WText(filter.label, style: AppTextStyles.body()),
                 ),
             ],
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(selectedFilter.label, style: AppTextStyles.h5()),
+                WText(selectedFilter.label, style: AppTextStyles.h5()),
                 const SizedBox(width: 4),
-                const Icon(Icons.arrow_drop_down,
+                const WIcon(Icons.arrow_drop_down,
                     size: 24, color: AppColors.textPrimary),
               ],
             ),
@@ -340,18 +341,23 @@ class _ChatListTile extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.borderDefault),
                     ),
-                    child: const Icon(
-                      Icons.person,
-                      size: 24,
-                      color: AppColors.textSecondary,
+                    child: Center(
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ),
                   ),
 
                   // Unread badge di kanan atas avatar
                   if (hasUnread)
                     Positioned(
-                      top: -2,
-                      right: -2,
+                      top: 0,
+                      right: 0,
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
@@ -393,7 +399,7 @@ class _ChatListTile extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text(
+                        child: WText(
                           otherUserName,
                           style: AppTextStyles.label().copyWith(
                             fontSize: 15,
@@ -401,7 +407,7 @@ class _ChatListTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(
+                      WText(
                         chat.lastTimeLabel,
                         style: AppTextStyles.caption()
                             .copyWith(color: AppColors.textSecondary),
@@ -411,7 +417,7 @@ class _ChatListTile extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   // Nama produk
-                  Text(
+                  WText(
                     chat.product.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -427,7 +433,7 @@ class _ChatListTile extends StatelessWidget {
                     children: [
                       if (chat.lastMessage != null) ...[
                         Expanded(
-                          child: Text(
+                          child: WText(
                             chat.isSeller(currentUserId)
                                 ? chat.lastMessage!
                                 : 'Anda: ${chat.lastMessage}',
@@ -458,7 +464,7 @@ class _ChatListTile extends StatelessWidget {
                 width: 48,
                 height: 48,
                 color: AppColors.neutral200,
-                child: const Icon(
+                child: const WIcon(
                   Icons.image_outlined,
                   size: 24,
                   color: AppColors.neutral400,

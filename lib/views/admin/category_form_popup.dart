@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Popup form untuk tambah atau edit kategori.
 /// Muncul dari bawah dengan animasi slide up.
@@ -83,11 +84,11 @@ class _CategoryFormPopupState extends State<_CategoryFormPopup> {
               Row(
                 children: [
                   Expanded(
-                    child: Text(widget.title, style: AppTextStyles.h5()),
+                    child: WText(widget.title, style: AppTextStyles.h5()),
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
+                    icon: const WIcon(Icons.close),
                     color: AppColors.textSecondary,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
@@ -104,7 +105,7 @@ class _CategoryFormPopupState extends State<_CategoryFormPopup> {
                 decoration: InputDecoration(
                   labelText: 'Nama Kategori',
                   hintText: 'Masukkan nama kategori',
-                  prefixIcon: const Icon(Icons.category_outlined),
+                  prefixIcon: const WIcon(Icons.category_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: AppColors.neutral300),
@@ -155,7 +156,7 @@ class _CategoryFormPopupState extends State<_CategoryFormPopup> {
               ElevatedButton(
                 onPressed: _handleSave,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.charcoal,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -167,7 +168,7 @@ class _CategoryFormPopupState extends State<_CategoryFormPopup> {
                     fontSize: 15,
                   ),
                 ),
-                child: const Text('Simpan'),
+                child: const WText('Simpan'),
               ),
             ],
           ),

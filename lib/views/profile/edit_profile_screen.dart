@@ -9,6 +9,7 @@ import '../../controllers/ProfileController.dart';
 import '../../models/UserModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Halaman Form Edit Profil Pengguna (MVC Architecture - View Layer).
 ///
@@ -75,7 +76,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (result == null || result.contains('tidak') || result.contains('gagal')) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result ?? 'Terjadi kesalahan saat menyimpan data'),
+          content: WText(result ?? 'Terjadi kesalahan saat menyimpan data'),
           backgroundColor: AppColors.errorBase,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -86,7 +87,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(result),
+        content: WText(result),
         backgroundColor: AppColors.charcoal,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -116,7 +117,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    WText(
                       'Foto Profil',
                       style: AppTextStyles.h4().copyWith(
                         fontSize: 18,
@@ -125,7 +126,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: const WIcon(Icons.close),
                       onPressed: () => Navigator.pop(ctx),
                     ),
                   ],
@@ -138,13 +139,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: AppColors.lime.withAlpha(80),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: const WIcon(
                       Icons.photo_camera_rounded,
                       color: AppColors.charcoal,
                       size: 22,
                     ),
                   ),
-                  title: Text(
+                  title: WText(
                     'Ambil Foto (Kamera)',
                     style: AppTextStyles.label().copyWith(
                       fontWeight: FontWeight.w700,
@@ -163,13 +164,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: AppColors.lime.withAlpha(80),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: const WIcon(
                       Icons.photo_library_rounded,
                       color: AppColors.charcoal,
                       size: 22,
                     ),
                   ),
-                  title: Text(
+                  title: WText(
                     'Pilih dari Galeri',
                     style: AppTextStyles.label().copyWith(
                       fontWeight: FontWeight.w700,
@@ -190,13 +191,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         color: AppColors.errorTint,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: const WIcon(
                         Icons.delete_outline_rounded,
                         color: AppColors.errorBase,
                         size: 22,
                       ),
                     ),
-                    title: Text(
+                    title: WText(
                       'Hapus Foto Profil',
                       style: AppTextStyles.label().copyWith(
                         fontWeight: FontWeight.w700,
@@ -229,11 +230,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         scrolledUnderElevation: 0.5,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.charcoal),
+          icon: const WIcon(Icons.arrow_back_rounded, color: AppColors.charcoal),
           tooltip: 'Kembali',
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
+        title: WText(
           'Edit Profil',
           style: AppTextStyles.h4().copyWith(
             fontWeight: FontWeight.w800,
@@ -246,7 +247,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             padding: const EdgeInsets.only(right: 12),
             child: TextButton(
               onPressed: _controller.isLoading ? null : _handleSave,
-              child: Text(
+              child: WText(
                 'Simpan',
                 style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.w800,
@@ -343,12 +344,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
-              child: CircleAvatar(
+              child: WAvatar(
                 radius: 54,
                 backgroundColor: AppColors.neutral200,
                 backgroundImage: imageProvider,
                 child: imageProvider == null
-                    ? const Icon(
+                    ? const WIcon(
                         Icons.person,
                         size: 58,
                         color: AppColors.textOnDark,
@@ -378,7 +379,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ],
                   ),
-                  child: const Icon(
+                  child: const WIcon(
                     Icons.camera_alt_rounded,
                     color: AppColors.charcoal,
                     size: 20,
@@ -394,7 +395,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           borderRadius: BorderRadius.circular(6),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text(
+            child: WText(
               'Ganti Foto Profil',
               style: AppTextStyles.label().copyWith(
                 fontWeight: FontWeight.w700,
@@ -479,7 +480,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        WText(
           label,
           style: AppTextStyles.label().copyWith(
             fontWeight: FontWeight.w700,
@@ -503,7 +504,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               fontSize: 13.5,
               color: AppColors.neutral400,
             ),
-            prefixIcon: Icon(
+            prefixIcon: WIcon(
               prefixIcon,
               size: 20,
               color: AppColors.neutral600,
@@ -555,7 +556,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   valueColor: AlwaysStoppedAnimation<Color>(AppColors.charcoal),
                 ),
               )
-            : Text(
+            : WText(
                 'Simpan Perubahan',
                 style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.w800,
@@ -574,9 +575,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
+            WIcon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
             SizedBox(width: 8),
-            Text(
+            WText(
               'Konfirmasi Keluar',
               style: AppTextStyles.h5().copyWith(
                 fontWeight: FontWeight.bold,
@@ -585,14 +586,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ],
         ),
-        content: Text(
+        content: WText(
           'Apakah Anda yakin ingin keluar dari akun RePake Anda?',
           style: AppTextStyles.body().copyWith(fontSize: 14.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(
+            child: WText(
               'Batal',
               style: AppTextStyles.label().copyWith(
                 color: AppColors.neutral700,
@@ -613,7 +614,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Navigator.of(context).popUntil((route) => route.isFirst);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Anda telah keluar dari akun RePake.'),
+                  content: const WText('Anda telah keluar dari akun RePake.'),
                   backgroundColor: AppColors.charcoal,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
@@ -621,7 +622,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               );
             },
-            child: const Text('Keluar'),
+            child: const WText('Keluar'),
           ),
         ],
       ),
@@ -641,8 +642,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
         onPressed: _confirmLogout,
-        icon: const Icon(Icons.logout_rounded, size: 18),
-        label: Text(
+        icon: const WIcon(Icons.logout_rounded, size: 18),
+        label: WText(
           'Keluar dari Akun',
           style: AppTextStyles.label().copyWith(
             fontWeight: FontWeight.w700,

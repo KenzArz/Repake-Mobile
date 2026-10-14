@@ -8,6 +8,7 @@ import '../../controllers/ProfileController.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 import '../product/product_detail.dart';
 import '../product/widgets/product_card.dart';
 import 'edit_profile_screen.dart';
@@ -33,7 +34,7 @@ class SellerProfilePage extends StatefulWidget {
 }
 
 class _SellerProfilePageState extends State<SellerProfilePage> {
-  // Using AppColors.lime from theme system instead of hardcoded AppColors.lime
+  // Using const Color(0xFFE0E0E0) from theme system instead of hardcoded const Color(0xFFE0E0E0)
   bool _isFollowing = false;
 
   void _confirmLogout(BuildContext context) {
@@ -45,7 +46,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
           children: [
             Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
             SizedBox(width: 8),
-            Text(
+            WText(
               'Konfirmasi Keluar',
               style: AppTextStyles.h5().copyWith(
                 fontWeight: FontWeight.bold,
@@ -54,14 +55,14 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
             ),
           ],
         ),
-        content: Text(
+        content: WText(
           'Apakah Anda yakin ingin keluar dari akun RePake Anda?',
           style: AppTextStyles.body().copyWith(fontSize: 14.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(
+            child: WText(
               'Batal',
               style: AppTextStyles.label().copyWith(
                 color: AppColors.neutral700,
@@ -82,7 +83,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               Navigator.of(context).popUntil((route) => route.isFirst);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Anda telah keluar dari akun RePake.'),
+                  content: const WText('Anda telah keluar dari akun RePake.'),
                   backgroundColor: AppColors.charcoal,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
@@ -90,7 +91,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                 ),
               );
             },
-            child: const Text('Keluar'),
+            child: const WText('Keluar'),
           ),
         ],
       ),
@@ -201,7 +202,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
               onPressed: () => Navigator.pop(context),
             ),
-            title: Text(
+            title: WText(
               displayName,
               style: AppTextStyles.h5().copyWith(
                 color: AppColors.textPrimary,
@@ -231,7 +232,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Tautan profil $displayName disalin!'),
+                      content: WText('Tautan profil $displayName disalin!'),
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -293,7 +294,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
+                                    WText(
                                       displayName,
                                       style: AppTextStyles.h5().copyWith(
                                         fontSize: 18,
@@ -308,32 +309,8 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '📍 $displayLocation • Online 10 menit lalu',
-                                  style: AppTextStyles.caption().copyWith(
-                                    color: AppColors.neutral600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: AppColors.ratingYellow,
-                                      size: 16,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '${widget.rating} (48 ulasan)',
-                                      style: AppTextStyles.label().copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                const SizedBox(height: 12),
+                                // Lokasi dan rating dihapus - wireframe mode
                               ],
                             ),
                           ),
@@ -352,7 +329,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: AppColors.neutral100),
                           ),
-                          child: Text(
+                          child: WText(
                             user.bio,
                             style: AppTextStyles.body().copyWith(
                               fontSize: 12.5,
@@ -371,7 +348,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               flex: 3,
                               child: ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.lime,
+                                  backgroundColor: Color(0xFFE0E0E0),
                                   foregroundColor: AppColors.textPrimary,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
@@ -391,7 +368,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   setState(() {});
                                 },
                                 icon: const Icon(Icons.edit_outlined, size: 18),
-                                label: Text(
+                                label: WText(
                                   'Edit Profil',
                                   style: AppTextStyles.label().copyWith(
                                     fontWeight: FontWeight.bold,
@@ -416,7 +393,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 onPressed: () => _confirmLogout(context),
                                 icon:
                                     const Icon(Icons.logout_rounded, size: 18),
-                                label: Text(
+                                label: WText(
                                   'Keluar',
                                   style: AppTextStyles.label().copyWith(
                                     fontWeight: FontWeight.bold,
@@ -433,11 +410,11 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                               child: OutlinedButton(
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: _isFollowing
-                                      ? AppColors.lime.withAlpha(50)
+                                      ? Color(0xFFE0E0E0).withAlpha(50)
                                       : AppColors.surfaceElevated,
                                   side: BorderSide(
                                     color: _isFollowing
-                                        ? AppColors.lime700
+                                        ? Color(0xFF757575)
                                         : AppColors.neutral400,
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -452,7 +429,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(_isFollowing
+                                      content: WText(_isFollowing
                                           ? 'Mengikuti ${widget.sellerName}'
                                           : 'Berhenti mengikuti ${widget.sellerName}'),
                                       behavior: SnackBarBehavior.floating,
@@ -460,7 +437,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                     ),
                                   );
                                 },
-                                child: Text(
+                                child: WText(
                                   _isFollowing
                                       ? '✓ Mengikuti'
                                       : '+ Ikuti Penjual',
@@ -475,7 +452,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                             Expanded(
                               child: ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.lime,
+                                  backgroundColor: Color(0xFFE0E0E0),
                                   foregroundColor: AppColors.textPrimary,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
@@ -489,7 +466,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                                 },
                                 icon: const Icon(Icons.chat_bubble_outline,
                                     size: 18),
-                                label: Text(
+                                label: WText(
                                   'Chat',
                                   style: AppTextStyles.label().copyWith(
                                     fontWeight: FontWeight.bold,
@@ -510,7 +487,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      WText(
                         'Semua Produk (${_sellerProducts.length})',
                         style: AppTextStyles.h5().copyWith(
                           fontSize: 16,
@@ -518,7 +495,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                           color: AppColors.textPrimary,
                         ),
                       ),
-                      Text(
+                      WText(
                         'Urutkan: Terbaru',
                         style: AppTextStyles.caption().copyWith(
                           fontSize: 12,
@@ -606,7 +583,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
         if (AuthController.instance.isGuest) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Silakan masuk untuk menyimpan favorit.'),
+              content: WText('Silakan masuk untuk menyimpan favorit.'),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -647,17 +624,16 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               ),
               const SizedBox(height: 12),
               ListTile(
-                leading:
-                    const Icon(
-                      Icons.share_outlined,
-                      color: AppColors.textPrimary,
-                    ),
-                title: const Text('Bagikan Produk'),
+                leading: const Icon(
+                  Icons.share_outlined,
+                  color: AppColors.textPrimary,
+                ),
+                title: const WText('Bagikan Produk'),
                 onTap: () {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Tautan "${product.title}" disalin!'),
+                      content: WText('Tautan "${product.title}" disalin!'),
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -669,7 +645,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               ListTile(
                 leading:
                     const Icon(Icons.flag_outlined, color: AppColors.errorBase),
-                title: Text(
+                title: WText(
                   'Laporkan Produk',
                   style: AppTextStyles.label().copyWith(
                     color: AppColors.errorBase,
@@ -679,7 +655,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Laporan Anda telah dikirim.'),
+                      content: WText('Laporan Anda telah dikirim.'),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -714,7 +690,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                WText(
                   'Chat dengan ${widget.sellerName}',
                   style: AppTextStyles.label().copyWith(
                     fontWeight: FontWeight.bold,
@@ -744,7 +720,7 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               height: 48,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.textPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -754,12 +730,12 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Pesan terkirim ke ${widget.sellerName}!'),
+                      content: WText('Pesan terkirim ke ${widget.sellerName}!'),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
                 },
-                child: const Text('Kirim Pesan'),
+                child: const WText('Kirim Pesan'),
               ),
             ),
           ],

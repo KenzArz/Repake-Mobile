@@ -5,6 +5,7 @@ import '../../models/CategoryModel.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
+import '../../widgets/wireframe_overlay.dart';
 import '../auth/login_popup.dart';
 import '../navigation/top_appBar.dart';
 import '../product/widgets/product_card.dart';
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         createdAt: DateTime.now().subtract(const Duration(hours: 2)),
         condition: 'Dirawat dengan baik',
         status: 'Dijual',
+        // imageUrl: null,  // Hapus image URL
       ),
     );
   }
@@ -85,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _sectionTitle(String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-      child: Text(text, style: AppTextStyles.h4()),
+      child: WText(text, style: AppTextStyles.h4()),
     );
   }
 

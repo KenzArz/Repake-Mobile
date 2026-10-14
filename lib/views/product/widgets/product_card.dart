@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/ProductModel.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
+import '../../../../widgets/wireframe_overlay.dart';
 
 /// ---------------------------------------------------------------------------
 /// KARTU PRODUK UTAMA (ProductCard)
@@ -62,7 +63,7 @@ class ProductCard extends StatelessWidget {
               const SizedBox(height: 8),
 
               // 3. Judul Produk
-              Text(
+              WText(
                 product.title,
                 maxLines: titleMaxLines,
                 overflow: TextOverflow
@@ -76,7 +77,7 @@ class ProductCard extends StatelessWidget {
               const SizedBox(height: 4),
 
               // 4. Harga Produk
-              Text(
+              WText(
                 product.priceLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -138,9 +139,8 @@ class _SellerRow extends StatelessWidget {
     return Row(
       children: [
         // Foto profil bulat penjual
-        CircleAvatar(
+        WAvatar(
           radius: 12,
-          backgroundColor: AppColors.neutral200,
           backgroundImage: avatar,
         ),
         const SizedBox(width: 8),
@@ -150,7 +150,7 @@ class _SellerRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              WText(
                 product.sellerName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -159,7 +159,7 @@ class _SellerRow extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              Text(
+              WText(
                 '${product.location} · ${product.postedAgo}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -228,10 +228,10 @@ class _ImageWithOverlay extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.lime,
+                  color: Color(0xFFE0E0E0),
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: Text(
+                child: WText(
                   product.status,
                   style: AppTextStyles.label().copyWith(
                     fontSize: 13,
@@ -261,7 +261,7 @@ class _ImageWithOverlay extends StatelessWidget {
                     product.isFavorite ? Icons.favorite : Icons.favorite_border,
                     size: 20,
                     color: product.isFavorite
-                        ? AppColors.lime
+                        ? Color(0xFFE0E0E0)
                         : AppColors.textOnDark,
                   ),
                 ),
@@ -295,10 +295,9 @@ class _ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url == null) return _placeholder();
-    return Image.network(
+    return WImage.network(
       url!,
       fit: BoxFit.cover, // Memastikan gambar memenuhi area tanpa gepeng
-      errorBuilder: (_, __, ___) => _placeholder(),
     );
   }
 }
@@ -317,11 +316,11 @@ class _ConditionChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.lime50,
+        color: Color(0xFFF5F5F5),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(color: AppColors.neutral200),
       ),
-      child: Text(
+      child: WText(
         label,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,

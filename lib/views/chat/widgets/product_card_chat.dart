@@ -200,7 +200,7 @@ class ProductCardChat extends StatelessWidget {
                       onPressed: onAccept,
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(44),
-                        backgroundColor: AppColors.lime,
+                        backgroundColor: Color(0xFFE0E0E0),
                         foregroundColor: AppColors.charcoal,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

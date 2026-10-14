@@ -10,6 +10,7 @@ import '../profile/seller_profile.dart';
 import 'banner_manage_screen.dart';
 import 'category_manage_screen.dart';
 import 'report_list_screen.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Halaman Dashboard Admin. Berisi 3 tab:
 ///   1. Laporan  -> ReportListScreen      (melihat laporan pengguna)
@@ -37,7 +38,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Row(
                   children: [
-                    Text('Dashboard', style: AppTextStyles.h3()),
+                    WText('Dashboard', style: AppTextStyles.h3()),
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -45,10 +46,10 @@ class AdminDashboardScreen extends StatelessWidget {
                         vertical: 3,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.lime200,
+                        color: Color(0xFFE0E0E0),
                         borderRadius: BorderRadius.circular(999),
                       ),
-                      child: Text(
+                      child: WText(
                         'Admin',
                         style: AppTextStyles.caption()
                             .copyWith(fontWeight: FontWeight.w700),
@@ -85,7 +86,7 @@ class AdminDashboardScreen extends StatelessWidget {
                         return Tooltip(
                           message: 'Profil',
                           child: Material(
-                            color: AppColors.lime200,
+                            color: Color(0xFFE0E0E0),
                             shape: const CircleBorder(),
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
@@ -112,7 +113,7 @@ class AdminDashboardScreen extends StatelessWidget {
                                         height: 34,
                                       )
                                     : const Center(
-                                        child: Icon(
+                                        child: WIcon(
                                           Icons.person,
                                           size: 19,
                                           color: AppColors.textPrimary,
@@ -167,7 +168,7 @@ class _DashboardTabBar extends StatelessWidget {
         child: TabBar(
           // Tab yang aktif diberi latar hijau lime berbentuk pil.
           indicator: BoxDecoration(
-            color: AppColors.lime,
+            color: Color(0xFFE0E0E0),
             borderRadius: BorderRadius.circular(999),
           ),
           indicatorSize: TabBarIndicatorSize.tab,

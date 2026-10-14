@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../theme/app_colors.dart';
+import '../../../../widgets/wireframe_overlay.dart';
 
 /// Slider banner dengan slide kiri/kanan yang mengintip.
 /// Kalau [imageUrls] kosong, ditampilkan 3 placeholder abu-abu.
@@ -68,11 +69,9 @@ class _BannerSliderState extends State<BannerSlider> {
               borderRadius: BorderRadius.circular(12),
               child: widget.imageUrls.isEmpty
                   ? Container(color: AppColors.neutral300)
-                  : Image.network(
+                  : WImage.network(
                       widget.imageUrls[i],
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
-                          Container(color: AppColors.neutral300),
                     ),
             ),
           );

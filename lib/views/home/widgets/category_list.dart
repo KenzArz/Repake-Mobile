@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../models/CategoryModel.dart';
-import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
+import '../../../../widgets/wireframe_overlay.dart';
 
 /// Baris kategori yang bisa di-scroll ke samping (lingkaran + label).
 class CategoryList extends StatelessWidget {
@@ -38,6 +38,20 @@ class _CategoryItem extends StatelessWidget {
   final CategoryModel category;
   final VoidCallback? onTap;
 
+  // Helper untuk mendapatkan icon berdasarkan nama kategori
+  IconData _getCategoryIcon() {
+    final name = category.name.toLowerCase();
+    if (name.contains('elektronik')) return Icons.devices_rounded;
+    if (name.contains('pakaian')) return Icons.checkroom_rounded;
+    if (name.contains('perabot') || name.contains('furniture'))
+      return Icons.chair_rounded;
+    if (name.contains('olahraga') || name.contains('sport'))
+      return Icons.sports_soccer_rounded;
+    if (name.contains('buku') || name.contains('book'))
+      return Icons.menu_book_rounded;
+    return Icons.category_rounded; // Default untuk "Lainnya" atau lainnya
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -47,17 +61,18 @@ class _CategoryItem extends StatelessWidget {
         width: 72,
         child: Column(
           children: [
-            CircleAvatar(
+            WAvatar(
               radius: 32,
-              backgroundColor: AppColors.neutral200,
               backgroundImage: category.iconUrl != null
                   ? NetworkImage(category.iconUrl!)
                   : null,
+              child: category.iconUrl == null
+                  ? WIcon(_getCategoryIcon(), size: 32)
+                  : null,
             ),
             const SizedBox(height: 8),
-            Text(
+            WText(
               category.name,
-              textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.label(),

@@ -127,7 +127,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.lime700 : AppColors.textPrimary;
+    final color = selected ? const Color(0xFF757575) : AppColors.textPrimary;
 
     return Expanded(
       child: InkWell(

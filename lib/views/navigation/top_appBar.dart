@@ -9,6 +9,7 @@ import '../../controllers/ProfileController.dart';
 import '../../models/UserRole.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Appbar Repake dengan 2 kondisi:
 /// - Expanded : logo + avatar, search bar di bawahnya (saat di paling atas)
@@ -138,7 +139,7 @@ class _TopAppBarState extends State<TopAppBar> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text('Repake', style: AppTextStyles.h3()),
+                  child: WText('Repake', style: AppTextStyles.h3()),
                 ),
                 // Tampilkan search icon hanya jika showSearch = true
                 if (widget.showSearch)
@@ -149,7 +150,7 @@ class _TopAppBarState extends State<TopAppBar> {
                         : IconButton(
                             key: const ValueKey('search-icon'),
                             onPressed: _openSearch,
-                            icon: const Icon(Icons.search),
+                            icon: const WIcon(Icons.search),
                             color: AppColors.textPrimary,
                             tooltip: 'Cari',
                           ),
@@ -216,7 +217,7 @@ class _SearchField extends StatelessWidget {
         hintStyle:
             AppTextStyles.body().copyWith(color: AppColors.textSecondary),
         prefixIcon:
-            const Icon(Icons.search, size: 20, color: AppColors.textPrimary),
+            const WIcon(Icons.search, size: 20, color: AppColors.textPrimary),
         contentPadding: const EdgeInsets.symmetric(vertical: 12),
         enabledBorder: _border(AppColors.neutral300),
         focusedBorder: _border(AppColors.charcoal),
@@ -237,7 +238,7 @@ class _ProfileButton extends StatelessWidget {
       builder: (context, role, _) {
         if (role == UserRole.guest) {
           return Material(
-            color: AppColors.lime,
+            color: Color(0xFFE0E0E0),
             borderRadius: BorderRadius.circular(20),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -250,10 +251,10 @@ class _ProfileButton extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.login_rounded,
+                    const WIcon(Icons.login_rounded,
                         size: 16, color: AppColors.charcoal),
                     const SizedBox(width: 5),
-                    Text(
+                    WText(
                       'Masuk',
                       style: AppTextStyles.label().copyWith(
                         fontWeight: FontWeight.w800,
@@ -297,7 +298,7 @@ class _ProfileButton extends StatelessWidget {
             return Tooltip(
               message: 'Profil',
               child: Material(
-                color: AppColors.lime200,
+                color: Color(0xFFE0E0E0),
                 shape: const CircleBorder(),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
@@ -316,7 +317,7 @@ class _ProfileButton extends StatelessWidget {
                             height: 36,
                           )
                         : const Center(
-                            child: Icon(
+                            child: WIcon(
                               Icons.person,
                               size: 20,
                               color: AppColors.textPrimary,

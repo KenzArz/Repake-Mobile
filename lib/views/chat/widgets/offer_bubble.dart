@@ -123,7 +123,7 @@ class OfferBubble extends StatelessWidget {
 
     switch (status) {
       case OfferStatus.pending:
-        bgColor = AppColors.lime500;
+        bgColor = const Color(0xFF9E9E9E);
         textColor = AppColors.charcoal;
         statusLabel = 'Menawar';
         statusIcon = null;

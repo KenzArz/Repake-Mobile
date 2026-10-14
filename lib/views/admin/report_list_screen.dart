@@ -6,6 +6,7 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import 'report_detail_popup.dart';
 import 'widgets/report_type_chip.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Tab "Laporan": tabel report (No, Gambar, Nama, Penjual, Jenis Report).
 /// Baris ditekan -> muncul detail report (pop up dari bawah).
@@ -63,8 +64,8 @@ class _ReportListScreenState extends State<ReportListScreen>
           // Judul + jumlah laporan
           Row(
             children: [
-              Expanded(child: Text('Daftar Report', style: AppTextStyles.h5())),
-              Text(
+              Expanded(child: WText('Daftar Report', style: AppTextStyles.h5())),
+              WText(
                 '${_reports.length} laporan',
                 style: AppTextStyles.caption()
                     .copyWith(color: AppColors.textSecondary),
@@ -114,7 +115,7 @@ class _ReportTable extends StatelessWidget {
           Expanded(
             child: reports.isEmpty
                 ? Center(
-                    child: Text(
+                    child: WText(
                       'Belum ada laporan.',
                       style: AppTextStyles.body()
                           .copyWith(color: AppColors.textMuted),
@@ -156,17 +157,17 @@ class _HeaderRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          SizedBox(width: _colNo, child: Text('No', style: style)),
+          SizedBox(width: _colNo, child: WText('No', style: style)),
           const SizedBox(width: _colGap),
-          SizedBox(width: _colImage, child: Text('Gambar', style: style)),
+          SizedBox(width: _colImage, child: WText('Gambar', style: style)),
           const SizedBox(width: _colGap),
-          Expanded(flex: 3, child: Text('Nama', style: style)),
+          Expanded(flex: 3, child: WText('Nama', style: style)),
           const SizedBox(width: _colGap),
-          Expanded(flex: 2, child: Text('Penjual', style: style)),
+          Expanded(flex: 2, child: WText('Penjual', style: style)),
           const SizedBox(width: _colGap),
           Expanded(
             flex: 2,
-            child: Text('Jenis', style: style, textAlign: TextAlign.center),
+            child: WText('Jenis', style: style, textAlign: TextAlign.center),
           ),
         ],
       ),
@@ -200,7 +201,7 @@ class _ReportRow extends StatelessWidget {
             // No
             SizedBox(
               width: _colNo,
-              child: Text('$number', style: AppTextStyles.caption()),
+              child: WText('$number', style: AppTextStyles.caption()),
             ),
             const SizedBox(width: _colGap),
 
@@ -218,7 +219,7 @@ class _ReportRow extends StatelessWidget {
             // Nama produk (maksimal 2 baris)
             Expanded(
               flex: 3,
-              child: Text(
+              child: WText(
                 product.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -231,7 +232,7 @@ class _ReportRow extends StatelessWidget {
             // Penjual
             Expanded(
               flex: 2,
-              child: Text(
+              child: WText(
                 product.sellerName,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -262,14 +263,14 @@ class _Thumb extends StatelessWidget {
 
   Widget _placeholder() => Container(
         color: AppColors.neutral200,
-        child: const Icon(Icons.image_outlined,
+        child: const WIcon(Icons.image_outlined,
             size: 20, color: AppColors.neutral400),
       );
 
   @override
   Widget build(BuildContext context) {
     if (url == null) return _placeholder();
-    return Image.network(
+    return WImage.network(
       url!,
       fit: BoxFit.cover,
       errorBuilder: (_, __, ___) => _placeholder(),

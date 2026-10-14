@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../widgets/wireframe_overlay.dart';
 
 /// App Bar tetap (Sticky) untuk Halaman Detail Produk.
 /// Menampilkan tombol kembali, brand "RePake", dan ikon favorit (wishlist).
@@ -46,7 +47,7 @@ class ProductDetailAppBar extends StatelessWidget {
             children: [
               // Tombol Kembali
               IconButton(
-                icon: const Icon(Icons.arrow_back, color: AppColors.charcoal),
+                icon: const WIcon(Icons.arrow_back, color: AppColors.charcoal),
                 tooltip: 'Kembali',
                 onPressed: () {
                   if (Navigator.canPop(context)) {
@@ -58,7 +59,7 @@ class ProductDetailAppBar extends StatelessWidget {
               const SizedBox(width: 4),
 
               // Judul / Brand ("RePake")
-              Text(
+              WText(
                 title,
                 style: AppTextStyles.h4().copyWith(
                   fontWeight: FontWeight.w800,
@@ -71,9 +72,9 @@ class ProductDetailAppBar extends StatelessWidget {
 
               // Ikon Wishlist / Favorit
               IconButton(
-                icon: Icon(
+                icon: WIcon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: isFavorite ? AppColors.lime : AppColors.charcoal,
+                  color: isFavorite ? Color(0xFFE0E0E0) : AppColors.charcoal,
                   size: 22,
                 ),
                 tooltip: 'Favorit',

@@ -4,6 +4,7 @@ import '../../models/CategoryModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import 'category_form_popup.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Tab "Kategori": tabel kategori dengan fitur CRUD
 /// (Create, Read, Update, Delete).
@@ -74,8 +75,8 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Hapus Kategori', style: AppTextStyles.h5()),
-        content: Text(
+        title: WText('Hapus Kategori', style: AppTextStyles.h5()),
+        content: WText(
           'Apakah Anda yakin ingin menghapus kategori "${category.name}"?',
           style: AppTextStyles.body(),
         ),
@@ -83,7 +84,7 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
+            child: WText(
               'Batal',
               style: AppTextStyles.label().copyWith(
                 color: AppColors.textSecondary,
@@ -97,7 +98,7 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
               });
               Navigator.pop(context);
             },
-            child: Text(
+            child: WText(
               'Hapus',
               style: AppTextStyles.label().copyWith(
                 color: AppColors.errorBase,
@@ -123,9 +124,9 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
           Row(
             children: [
               Expanded(
-                child: Text('Daftar Kategori', style: AppTextStyles.h5()),
+                child: WText('Daftar Kategori', style: AppTextStyles.h5()),
               ),
-              Text(
+              WText(
                 '${_categories.length} kategori',
                 style: AppTextStyles.caption()
                     .copyWith(color: AppColors.textSecondary),
@@ -134,10 +135,10 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
               // Tombol Tambah Kategori
               ElevatedButton.icon(
                 onPressed: _showAddCategoryDialog,
-                icon: const Icon(Icons.add, size: 18),
-                label: const Text('Tambah'),
+                icon: const WIcon(Icons.add, size: 18),
+                label: const WText('Tambah'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.charcoal,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -202,7 +203,7 @@ class _CategoryTable extends StatelessWidget {
           Expanded(
             child: categories.isEmpty
                 ? Center(
-                    child: Text(
+                    child: WText(
                       'Belum ada kategori.',
                       style: AppTextStyles.body()
                           .copyWith(color: AppColors.textMuted),
@@ -245,13 +246,13 @@ class _HeaderRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          SizedBox(width: _colNo, child: Text('No', style: style)),
+          SizedBox(width: _colNo, child: WText('No', style: style)),
           const SizedBox(width: _colGap),
-          Expanded(child: Text('Nama Kategori', style: style)),
+          Expanded(child: WText('Nama Kategori', style: style)),
           const SizedBox(width: _colGap),
           SizedBox(
             width: _colActions,
-            child: Text('Aksi', style: style, textAlign: TextAlign.center),
+            child: WText('Aksi', style: style, textAlign: TextAlign.center),
           ),
         ],
       ),
@@ -282,7 +283,7 @@ class _CategoryRow extends StatelessWidget {
           // No
           SizedBox(
             width: _colNo,
-            child: Text(
+            child: WText(
               '$number',
               style: AppTextStyles.caption().copyWith(
                 fontWeight: FontWeight.w600,
@@ -293,7 +294,7 @@ class _CategoryRow extends StatelessWidget {
 
           // Nama Kategori
           Expanded(
-            child: Text(
+            child: WText(
               category.name,
               style: AppTextStyles.label().copyWith(
                 fontSize: 14,
@@ -312,7 +313,7 @@ class _CategoryRow extends StatelessWidget {
                 // Tombol Edit
                 _ActionButton(
                   icon: Icons.edit_outlined,
-                  color: AppColors.lime700,
+                  color: Color(0xFF757575),
                   onTap: onEdit,
                   tooltip: 'Edit',
                 ),
@@ -360,7 +361,7 @@ class _ActionButton extends StatelessWidget {
             color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Icon(icon, size: 18, color: color),
+          child: WIcon(icon, size: 18, color: color),
         ),
       ),
     );

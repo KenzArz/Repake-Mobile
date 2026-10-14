@@ -55,7 +55,7 @@ class ProductGallery extends StatelessWidget {
                         color: AppColors.surfaceElevated,
                         borderRadius: BorderRadius.circular(8),
                         border: isSelected
-                            ? Border.all(color: AppColors.lime, width: 2.5)
+                            ? Border.all(color: Color(0xFFE0E0E0), width: 2.5)
                             : Border.all(
                                 color: AppColors.surfaceElevated, width: 1.5),
                         boxShadow: [

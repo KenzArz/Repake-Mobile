@@ -4,6 +4,7 @@ import '../../models/ReportModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import 'widgets/report_type_chip.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Menampilkan detail report sebagai pop up dari bawah (bottom sheet).
 ///
@@ -72,10 +73,10 @@ class _ReportDetailSheet extends StatelessWidget {
             // Judul + tombol tutup
             Row(
               children: [
-                Expanded(child: Text('Detail Report', style: AppTextStyles.h4())),
+                Expanded(child: WText('Detail Report', style: AppTextStyles.h4())),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close),
+                  icon: const WIcon(Icons.close),
                   tooltip: 'Tutup',
                 ),
               ],
@@ -90,10 +91,10 @@ class _ReportDetailSheet extends StatelessWidget {
                 child: product.imageUrl == null
                     ? Container(
                         color: AppColors.neutral200,
-                        child: const Icon(Icons.image_outlined,
+                        child: const WIcon(Icons.image_outlined,
                             size: 40, color: AppColors.neutral400),
                       )
-                    : Image.network(
+                    : WImage.network(
                         product.imageUrl!,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) =>
@@ -104,9 +105,9 @@ class _ReportDetailSheet extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Nama & harga produk
-            Text(product.title, style: AppTextStyles.h4()),
+            WText(product.title, style: AppTextStyles.h4()),
             const SizedBox(height: 2),
-            Text(
+            WText(
               product.priceLabel,
               style: AppTextStyles.h5()
                   .copyWith(color: AppColors.textSecondary),
@@ -144,7 +145,7 @@ class _ReportDetailSheet extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Keterangan dari pelapor
-            Text(
+            WText(
               'Keterangan Pelapor',
               style: AppTextStyles.h5().copyWith(fontSize: 16),
             ),
@@ -157,7 +158,7 @@ class _ReportDetailSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.borderDefault),
               ),
-              child: Text(
+              child: WText(
                 report.description.isEmpty
                     ? 'Pelapor tidak menambahkan keterangan.'
                     : report.description,
@@ -183,7 +184,7 @@ class _ReportDetailSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Lihat Produk'),
+                    child: const WText('Lihat Produk'),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -192,13 +193,13 @@ class _ReportDetailSheet extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(),
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
-                      backgroundColor: AppColors.lime,
+                      backgroundColor: Color(0xFFE0E0E0),
                       foregroundColor: AppColors.charcoal,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Tutup'),
+                    child: const WText('Tutup'),
                   ),
                 ),
               ],
@@ -210,7 +211,7 @@ class _ReportDetailSheet extends StatelessWidget {
   }
 
   /// Teks nilai standar untuk baris info.
-  Widget _value(String text) => Text(
+  Widget _value(String text) => WText(
         text,
         textAlign: TextAlign.right,
         style: AppTextStyles.label().copyWith(fontWeight: FontWeight.w600),
@@ -230,7 +231,7 @@ class _InfoRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
-          Text(
+          WText(
             label,
             style: AppTextStyles.label()
                 .copyWith(color: AppColors.textSecondary),

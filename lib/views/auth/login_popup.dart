@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/AuthController.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Membuka Pop-up Modal "Masuk ke RePake" (Google Sign-In UNSIKA).
 /// Mengembalikan `true` jika user berhasil masuk.
@@ -71,11 +72,11 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle_rounded,
-                color: AppColors.lime, size: 20),
+            const WIcon(Icons.check_circle_rounded,
+                color: Color(0xFFE0E0E0), size: 20),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(
+              child: WText(
                 'Berhasil masuk sebagai $roleLabel!',
                 style: AppTextStyles.body().copyWith(
                   fontWeight: FontWeight.w600,
@@ -146,7 +147,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           child: IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
-            icon: const Icon(
+            icon: const WIcon(
               Icons.close_rounded,
               size: 24,
               color: AppColors.neutral700,
@@ -163,15 +164,15 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           width: 68,
           height: 68,
           decoration: BoxDecoration(
-            color: AppColors.lime,
+            color: Color(0xFFE0E0E0),
             borderRadius: BorderRadius.circular(16),
           ),
           clipBehavior: Clip.antiAlias,
-          child: Image.asset(
+          child: WImage.asset(
             'assets/images/repake_logo.jpg',
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => const Center(
-              child: Icon(
+              child: WIcon(
                 Icons.recycling_rounded,
                 size: 42,
                 color: AppColors.charcoal,
@@ -183,7 +184,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
         const SizedBox(height: 20),
 
         // 3. Judul "Masuk ke RePake"
-        Text(
+        WText(
           'Masuk ke RePake',
           style: AppTextStyles.h3().copyWith(
             fontWeight: FontWeight.w900,
@@ -196,7 +197,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
         const SizedBox(height: 10),
 
         // 4. Subtitle Akun Google UNSIKA
-        Text(
+        WText(
           'Silahkan masuk menggunakan\nakun Google UNSIKA anda\nuntuk mulai menjelajahi RePake',
           textAlign: TextAlign.center,
           style: AppTextStyles.body().copyWith(
@@ -234,7 +235,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
               children: [
                 const _GoogleLogoG(size: 22),
                 const SizedBox(width: 12),
-                Text(
+                WText(
                   'Continue with Google',
                   style: AppTextStyles.label().copyWith(
                     fontWeight: FontWeight.w700,
@@ -250,7 +251,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
         const SizedBox(height: 24),
 
         // 6. Syarat & Ketentuan RePake
-        Text(
+        WText(
           'Dengan masuk, Anda menyetujui\nSyarat dan Ketentuan RePake',
           textAlign: TextAlign.center,
           style: AppTextStyles.caption().copyWith(
@@ -279,7 +280,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              icon: const Icon(
+              icon: const WIcon(
                 Icons.arrow_back_rounded,
                 size: 22,
                 color: AppColors.charcoal,
@@ -294,7 +295,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              icon: const Icon(
+              icon: const WIcon(
                 Icons.close_rounded,
                 size: 24,
                 color: AppColors.neutral700,
@@ -316,7 +317,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  WText(
                     'Pilih akun Google',
                     style: AppTextStyles.h4().copyWith(
                       fontWeight: FontWeight.w800,
@@ -324,7 +325,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                       color: AppColors.charcoal,
                     ),
                   ),
-                  Text(
+                  WText(
                     'untuk melanjutkan ke RePake UNSIKA',
                     style: AppTextStyles.body().copyWith(
                       fontSize: 12,
@@ -347,11 +348,11 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
           name: 'Midou_kun',
           email: 'midou.kun@student.unsika.ac.id',
           avatarInitial: 'M',
-          avatarBgColor: AppColors.lime400,
+          avatarBgColor: const Color(0xFFBDBDBD),
           avatarTextColor: AppColors.charcoal,
           roleBadge: 'Mahasiswa (User)',
-          roleBadgeBg: AppColors.lime100,
-          roleBadgeColor: AppColors.lime900,
+          roleBadgeBg: const Color(0xFFEEEEEE),
+          roleBadgeColor: const Color(0xFF424242),
           onTap: () => _performSignIn(
             isAdmin: false,
             name: 'Midou_kun',
@@ -384,7 +385,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
         const SizedBox(height: 16),
 
         // Catatan Privasi Google
-        Text(
+        WText(
           'Untuk melanjutkan, Google akan membagikan nama, alamat email, dan preferensi bahasa Anda kepada RePake.',
           style: AppTextStyles.caption().copyWith(
             fontSize: 11.5,
@@ -417,10 +418,10 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
         child: Row(
           children: [
-            CircleAvatar(
+            WAvatar(
               radius: 19,
               backgroundColor: avatarBgColor,
-              child: Text(
+              child: WText(
                 avatarInitial,
                 style: AppTextStyles.label().copyWith(
                   fontWeight: FontWeight.w800,
@@ -437,7 +438,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                   Row(
                     children: [
                       Flexible(
-                        child: Text(
+                        child: WText(
                           name,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.label().copyWith(
@@ -457,7 +458,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                           color: roleBadgeBg,
                           borderRadius: BorderRadius.circular(999),
                         ),
-                        child: Text(
+                        child: WText(
                           roleBadge,
                           style: AppTextStyles.smallLabel().copyWith(
                             fontSize: 9.5,
@@ -469,7 +470,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  Text(
+                  WText(
                     email,
                     style: AppTextStyles.caption().copyWith(
                       fontSize: 12,
@@ -489,7 +490,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                 ),
               )
             else
-              const Icon(
+              const WIcon(
                 Icons.chevron_right_rounded,
                 color: AppColors.neutral400,
                 size: 20,
@@ -509,7 +510,7 @@ class _GoogleLogoG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
+    return WImage.network(
       'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/512px-Google_%22G%22_logo.svg.png',
       width: size,
       height: size,

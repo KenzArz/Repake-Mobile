@@ -232,7 +232,7 @@ class _OfferActionSheetState extends State<OfferActionSheet> {
                   onPressed: _submit,
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
-                    backgroundColor: AppColors.lime,
+                    backgroundColor: Color(0xFFE0E0E0),
                     foregroundColor: AppColors.charcoal,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/ProductModel.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../widgets/wireframe_overlay.dart';
 import '../../profile/seller_profile.dart';
 
 /// Bagian detail info produk: Seller Info, Judul, Harga, Tag status, Deskripsi,
@@ -34,7 +35,7 @@ class ProductInfoSection extends StatelessWidget {
         const SizedBox(height: 14),
 
         // Judul Produk
-        Text(
+        WText(
           product.title,
           style: AppTextStyles.h4().copyWith(
             fontWeight: FontWeight.w800,
@@ -46,7 +47,7 @@ class ProductInfoSection extends StatelessWidget {
         const SizedBox(height: 10),
 
         // Harga Produk (Rp 670.000)
-        Text(
+        WText(
           product.priceLabel,
           style: AppTextStyles.h3().copyWith(
             fontWeight: FontWeight.w800,
@@ -70,7 +71,7 @@ class ProductInfoSection extends StatelessWidget {
         const SizedBox(height: 20),
 
         // Judul Deskripsi
-        Text(
+        WText(
           'Deskripsi',
           style: AppTextStyles.h5().copyWith(
             fontWeight: FontWeight.w800,
@@ -81,7 +82,7 @@ class ProductInfoSection extends StatelessWidget {
         const SizedBox(height: 8),
 
         // Isi Paragraf Deskripsi
-        Text(
+        WText(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.',
           style: AppTextStyles.body().copyWith(
             fontSize: 13,
@@ -98,7 +99,7 @@ class ProductInfoSection extends StatelessWidget {
           height: 46,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.lime,
+              backgroundColor: Color(0xFFE0E0E0),
               foregroundColor: AppColors.charcoal,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -111,7 +112,7 @@ class ProductInfoSection extends StatelessWidget {
               size: 18,
               color: AppColors.charcoal,
             ),
-            label: Text(
+            label: WText(
               'Chat Penjual',
               style: AppTextStyles.label().copyWith(
                 fontWeight: FontWeight.w700,
@@ -168,7 +169,7 @@ class ProductInfoSection extends StatelessWidget {
               height: 46,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.charcoal,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -177,7 +178,7 @@ class ProductInfoSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                 ),
                 onPressed: onSubmitOffer,
-                child: Text(
+                child: WText(
                   'Tawar Harga',
                   style: AppTextStyles.label().copyWith(
                     fontWeight: FontWeight.w700,
@@ -218,64 +219,58 @@ class ProductInfoSection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               child: Row(
                 children: [
-              CircleAvatar(
-                radius: 19,
-                backgroundColor: AppColors.neutral200,
-                backgroundImage: product.sellerAvatarUrl != null
-                    ? NetworkImage(product.sellerAvatarUrl!)
-                    : null,
-                child: product.sellerAvatarUrl == null
-                    ? const Icon(Icons.person,
-                        color: AppColors.textOnDark, size: 22)
-                    : null,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+                  WAvatar(
+                    radius: 19,
+                    backgroundImage: product.sellerAvatarUrl != null
+                        ? NetworkImage(product.sellerAvatarUrl!)
+                        : null,
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        product.sellerName,
-                        style: AppTextStyles.label().copyWith(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.5,
-                          color: AppColors.charcoal,
-                        ),
+                      Row(
+                        children: [
+                          WText(
+                            product.sellerName,
+                            style: AppTextStyles.label().copyWith(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14.5,
+                              color: AppColors.charcoal,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          const WIcon(
+                            Icons.star,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 3),
+                          WText(
+                            '4.5',
+                            style: AppTextStyles.label().copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
+                              color: AppColors.charcoal,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(
-                        Icons.star,
-                        color: AppColors.ratingYellow,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 3),
-                      Text(
-                        '4.5',
-                        style: AppTextStyles.label().copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
-                          color: AppColors.charcoal,
+                      const SizedBox(height: 2),
+                      WText(
+                        '${product.location} · ${product.postedAgo}',
+                        style: AppTextStyles.caption().copyWith(
+                          color: AppColors.textMuted,
+                          fontSize: 11.5,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${product.location} · ${product.postedAgo}',
-                    style: AppTextStyles.caption().copyWith(
-                      color: AppColors.textMuted,
-                      fontSize: 11.5,
-                    ),
-                  ),
                 ],
               ),
-              ],
             ),
           ),
         ),
-      ),
-      const Spacer(),
+        const Spacer(),
         IconButton(
           icon: const Icon(
             Icons.more_vert,
@@ -292,10 +287,10 @@ class ProductInfoSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        color: isGreen ? AppColors.lime : AppColors.neutral100,
+        color: isGreen ? Color(0xFFE0E0E0) : AppColors.neutral100,
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Text(
+      child: WText(
         label,
         style: AppTextStyles.caption().copyWith(
           fontWeight: isGreen ? FontWeight.w800 : FontWeight.w600,

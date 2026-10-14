@@ -4,6 +4,7 @@ import '../../../models/ProductModel.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import 'product_card.dart';
+import '../../../widgets/wireframe_overlay.dart';
 
 /// Bagian Rekomendasi "Produk yang Mirip" yang responsif (Row untuk Desktop, Horizontal scroll untuk Mobile).
 class SimilarProductsSection extends StatelessWidget {
@@ -27,7 +28,7 @@ class SimilarProductsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        WText(
           'Produk yang Mirip',
           style: AppTextStyles.h4().copyWith(
             fontWeight: FontWeight.w800,

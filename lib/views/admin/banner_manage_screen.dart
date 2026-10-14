@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/BannerModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
+import '../../widgets/wireframe_overlay.dart';
 
 /// Tab "Banner": admin mengatur banner slider di beranda.
 ///   - Tambah banner  : tombol "+ Tambah"
@@ -67,17 +68,17 @@ class _BannerManageScreenState extends State<BannerManageScreen>
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Hapus banner?'),
-        content: Text('Banner "${banner.title}" akan dihapus.'),
+        title: const WText('Hapus banner?'),
+        content: WText('Banner "${banner.title}" akan dihapus.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Batal'),
+            child: const WText('Batal'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: AppColors.errorBase),
-            child: const Text('Hapus'),
+            child: const WText('Hapus'),
           ),
         ],
       ),
@@ -118,13 +119,13 @@ class _BannerManageScreenState extends State<BannerManageScreen>
           // Judul + tombol tambah
           Row(
             children: [
-              Expanded(child: Text('Atur Banner', style: AppTextStyles.h5())),
+              Expanded(child: WText('Atur Banner', style: AppTextStyles.h5())),
               FilledButton.icon(
                 onPressed: () => _openForm(),
-                icon: const Icon(Icons.add, size: 20),
-                label: const Text('Tambah'),
+                icon: const WIcon(Icons.add, size: 20),
+                label: const WText('Tambah'),
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.lime,
+                  backgroundColor: Color(0xFFE0E0E0),
                   foregroundColor: AppColors.charcoal,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -134,7 +135,7 @@ class _BannerManageScreenState extends State<BannerManageScreen>
             ],
           ),
           const SizedBox(height: 8),
-          Text(
+          WText(
             'Banner tampil di beranda sesuai urutan di sini. '
             'Tahan ikon di kiri lalu geser untuk mengubah urutan.',
             style: AppTextStyles.label()
@@ -146,7 +147,7 @@ class _BannerManageScreenState extends State<BannerManageScreen>
           Expanded(
             child: _banners.isEmpty
                 ? Center(
-                    child: Text(
+                    child: WText(
                       'Belum ada banner.',
                       style: AppTextStyles.body()
                           .copyWith(color: AppColors.textMuted),
@@ -216,7 +217,7 @@ class _BannerCard extends StatelessWidget {
                   index: index,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                    child: Icon(Icons.drag_indicator,
+                    child: WIcon(Icons.drag_indicator,
                         color: AppColors.textSecondary),
                   ),
                 ),
@@ -241,14 +242,14 @@ class _BannerCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      WText(
                         banner.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.label()
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
-                      Text(
+                      WText(
                         banner.isActive ? 'Aktif' : 'Nonaktif',
                         style: AppTextStyles.caption().copyWith(
                           color: banner.isActive
@@ -264,13 +265,13 @@ class _BannerCard extends StatelessWidget {
                 Switch(
                   value: banner.isActive,
                   onChanged: onToggle,
-                  activeTrackColor: AppColors.lime,
+                  activeTrackColor: Color(0xFFE0E0E0),
                 ),
 
                 // Hapus
                 IconButton(
                   onPressed: onDelete,
-                  icon: const Icon(Icons.delete_outline),
+                  icon: const WIcon(Icons.delete_outline),
                   color: AppColors.errorBase,
                   tooltip: 'Hapus',
                 ),
@@ -293,7 +294,7 @@ class _BannerImage extends StatelessWidget {
   Widget _placeholder() => Container(
         color: AppColors.neutral300,
         child: const Center(
-          child: Icon(Icons.image_outlined, color: AppColors.neutral500),
+          child: WIcon(Icons.image_outlined, color: AppColors.neutral500),
         ),
       );
 
@@ -303,7 +304,7 @@ class _BannerImage extends StatelessWidget {
     if (p == null) return _placeholder();
 
     if (p.startsWith('http')) {
-      return Image.network(
+      return WImage.network(
         p,
         fit: BoxFit.cover,
         errorBuilder: (_, __, ___) => _placeholder(),
@@ -398,7 +399,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              WText(
                 _isEdit ? 'Ubah Banner' : 'Tambah Banner',
                 style: AppTextStyles.h4(),
               ),
@@ -408,7 +409,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
               AspectRatio(
                 aspectRatio: 2,
                 child: Material(
-                  color: AppColors.lime100,
+                  color: Color(0xFFEEEEEE),
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -425,10 +426,10 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.add_photo_alternate_outlined,
+                              const WIcon(Icons.add_photo_alternate_outlined,
                                   size: 32),
                               const SizedBox(height: 8),
-                              Text('Pilih gambar banner',
+                              WText('Pilih gambar banner',
                                   style: AppTextStyles.label()
                                       .copyWith(fontWeight: FontWeight.w600)),
                             ],
@@ -450,7 +451,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                                     ),
                                     borderRadius: BorderRadius.circular(999),
                                   ),
-                                  child: Text(
+                                  child: WText(
                                     'Ganti gambar',
                                     style: AppTextStyles.caption()
                                         .copyWith(
@@ -465,7 +466,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                 ),
               ),
               const SizedBox(height: 6),
-              Text(
+              WText(
                 _showImageError
                     ? 'Gambar banner wajib dipilih.'
                     : 'Disarankan rasio 2:1 (contoh 1200 x 600 px).',
@@ -478,7 +479,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
               const SizedBox(height: 16),
 
               // Judul banner (penanda untuk admin)
-              Text('Judul Banner',
+              WText('Judul Banner',
                   style: AppTextStyles.h5().copyWith(fontSize: 16)),
               const SizedBox(height: 8),
               TextFormField(
@@ -533,7 +534,7 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text('Batal'),
+                      child: const WText('Batal'),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -542,13 +543,13 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                       onPressed: _save,
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
-                        backgroundColor: AppColors.lime,
+                        backgroundColor: Color(0xFFE0E0E0),
                         foregroundColor: AppColors.charcoal,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text('Simpan'),
+                      child: const WText('Simpan'),
                     ),
                   ),
                 ],
