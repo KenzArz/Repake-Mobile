@@ -72,7 +72,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (!mounted) return;
 
-    if (result == null || result.contains('tidak') || result.contains('gagal')) {
+    if (result == null ||
+        result.contains('tidak') ||
+        result.contains('gagal')) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result ?? 'Terjadi kesalahan saat menyimpan data'),
@@ -269,38 +271,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: ListenableBuilder(
           listenable: _controller,
           builder: (context, _) {
-            return Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 680),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 24,
-                  ),
-                  child: Column(
-                    children: [
-                      // 1. Avatar Picker Section
-                      _buildAvatarSection(),
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 24,
+              ),
+              child: Column(
+                children: [
+                  // 1. Avatar Picker Section
+                  _buildAvatarSection(),
 
-                      const SizedBox(height: 28),
+                  const SizedBox(height: 28),
 
-                      // 2. Form Input Fields Card
-                      _buildFormCard(),
+                  // 2. Form Input Fields Card
+                  _buildFormCard(),
 
-                      const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                      // 3. Tombol Simpan Perubahan Utama
-                      _buildSaveButton(),
+                  // 3. Tombol Simpan Perubahan Utama
+                  _buildSaveButton(),
 
-                      const SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
-                      // 4. Tombol Keluar dari Akun
-                      _buildLogoutButton(),
+                  // 4. Tombol Keluar dari Akun
+                  _buildLogoutButton(),
 
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
+                  const SizedBox(height: 24),
+                ],
               ),
             );
           },
@@ -339,7 +336,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   BoxShadow(
                     color: AppColors.neutral900.withValues(alpha: 0.12),
                     blurRadius: 10,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -374,7 +371,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       BoxShadow(
                         color: AppColors.neutral900.withValues(alpha: 0.26),
                         blurRadius: 6,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
@@ -419,7 +416,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           BoxShadow(
             color: AppColors.neutral900.withValues(alpha: 0.02),
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -433,12 +430,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             prefixIcon: Icons.person_outline_rounded,
           ),
           const SizedBox(height: 16),
-          _buildTextField(
-            label: 'Email',
-            hint: 'nama@student.ac.id',
-            controller: _controller.emailController,
+          // EMAIL FIELD REMOVED - karena Google Sign-In tidak allow email change
+          // Email akan di-set otomatis dari Google Account
+          _buildReadOnlyField(
+            label: 'Email (dari Google Account)',
+            value: _controller.currentUser.email,
             prefixIcon: Icons.email_outlined,
-            keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           _buildTextField(
@@ -465,6 +462,61 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  /// Read-only field untuk menampilkan email (tidak bisa diedit)
+  Widget _buildReadOnlyField({
+    required String label,
+    required String value,
+    required IconData prefixIcon,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTextStyles.label().copyWith(
+            fontWeight: FontWeight.w700,
+            fontSize: 13,
+            color: AppColors.charcoal,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: AppColors.neutral100,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.neutral200),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                prefixIcon,
+                size: 20,
+                color: AppColors.neutral600,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  value.isNotEmpty ? value : 'Tidak ada email',
+                  style: AppTextStyles.body().copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.neutral600,
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.lock_outline,
+                size: 16,
+                color: AppColors.neutral400,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -524,7 +576,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: AppColors.charcoal, width: 1.5),
+              borderSide:
+                  const BorderSide(color: AppColors.charcoal, width: 1.5),
             ),
           ),
         ),
@@ -574,7 +627,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(Icons.logout_rounded, color: AppColors.errorBase, size: 24),
+            const Icon(Icons.logout_rounded,
+                color: AppColors.errorBase, size: 24),
             SizedBox(width: 8),
             Text(
               'Konfirmasi Keluar',

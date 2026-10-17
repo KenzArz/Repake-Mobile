@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/DummyData.dart';
 import '../../models/ProductModel.dart';
 import '../../models/ReportModel.dart';
 import '../../theme/app_colors.dart';
@@ -24,32 +25,8 @@ class _ReportListScreenState extends State<ReportListScreen>
   @override
   bool get wantKeepAlive => true;
 
-  // TODO: ganti dengan data dari admin_controller (database).
-  late final List<ReportModel> _reports = _dummyReports();
-
-  static List<ReportModel> _dummyReports() {
-    const types = ReportType.values;
-    return List.generate(8, (i) {
-      return ReportModel(
-        id: 'r$i',
-        product: ProductModel(
-          id: 'p$i',
-          title: 'Femboy imup ganas ${i + 1}',
-          price: 670000,
-          sellerName: 'Midou_kun',
-          location: 'Bekasi',
-          createdAt: DateTime.now().subtract(Duration(days: i)),
-          condition: 'Dirawat dengan baik',
-        ),
-        reporterName: 'Mahasiswa_${i + 1}',
-        type: types[i % types.length],
-        description:
-            'Barang tidak sesuai dengan foto dan penjual meminta pembayaran '
-            'di luar aplikasi.',
-        createdAt: DateTime.now().subtract(Duration(hours: i * 5 + 1)),
-      );
-    });
-  }
+  // Gunakan data dari DummyData (no more hardcoded!)
+  late final List<ReportModel> _reports = DummyData.reports;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +187,7 @@ class _ReportRow extends StatelessWidget {
               height: _colImage,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: _Thumb(url: product.imageUrl),
+                child: _Thumb(product: product),
               ),
             ),
             const SizedBox(width: _colGap),
@@ -256,9 +233,9 @@ class _ReportRow extends StatelessWidget {
 
 /// Gambar kecil produk; kalau belum ada gambar tampil kotak abu-abu.
 class _Thumb extends StatelessWidget {
-  const _Thumb({this.url});
+  const _Thumb({required this.product});
 
-  final String? url;
+  final ProductModel product;
 
   Widget _placeholder() => Container(
         color: AppColors.neutral200,
@@ -268,10 +245,24 @@ class _Thumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url == null) return _placeholder();
+    final url = product.primaryImage;
+    if (url == null || url.isEmpty) return _placeholder();
+
     return Image.network(
-      url!,
+      url,
       fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          color: AppColors.neutral200,
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.neutral400),
+            ),
+          ),
+        );
+      },
       errorBuilder: (_, __, ___) => _placeholder(),
     );
   }

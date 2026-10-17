@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/AuthController.dart';
+import '../../models/DummyData.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
@@ -10,7 +11,7 @@ import '../navigation/top_appBar.dart';
 import '../product/widgets/product_card.dart';
 
 /// Halaman Favorite - Menampilkan daftar produk yang sudah di-favorite user.
-/// Layout menggunakan grid 2 kolom yang sama dengan landing page (home_screen).
+/// Layout menggunakan grid 2 kolom yang KONSISTEN dengan landing page (home_screen).
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -22,50 +23,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
 
-  // TODO: Ganti dengan FavoriteController.instance.getFavorites()
-  // Untuk demo UI, pakai data dummy
-  late List<ProductModel> _favorites = _dummyFavorites(8);
-
-  static List<ProductModel> _dummyFavorites(int n) {
-    return List.generate(
-      n,
-      (i) => ProductModel(
-        id: 'fav$i',
-        title: [
-          'Keyboard Mechanical RGB Gaming',
-          'Sepatu Sneakers Bekas Limited Edition',
-          'Jaket Denim Vintage 90s',
-          'Kamera DSLR Canon EOS 70D',
-          'Headphone Wireless Sony WH-1000XM4',
-          'Tas Ransel North Face Original',
-          'Buku Harry Potter Seri Lengkap',
-          'Smart Watch Apple Watch Series 7',
-        ][i % 8],
-        price: [
-          670000,
-          450000,
-          280000,
-          5500000,
-          3200000,
-          890000,
-          750000,
-          4500000
-        ][i % 8],
-        sellerName: ['Midou_kun', 'Reza_shop', 'Thrift.id', 'TechStore'][i % 4],
-        location: ['Bekasi', 'Jakarta', 'Bandung', 'Tangerang'][i % 4],
-        createdAt: DateTime.now().subtract(Duration(hours: i * 3)),
-        condition: [
-          'Dirawat dengan baik',
-          'Seperti baru',
-          'Bekas pakai'
-        ][i % 3],
-        status: 'Dijual',
-        isFavorite: true, // Semua item di sini sudah favorite
-        imageUrl:
-            'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      ),
-    );
-  }
+  // Ambil data dari centralized DummyData
+  late List<ProductModel> _favorites = DummyData.productsFavorites();
 
   @override
   void dispose() {

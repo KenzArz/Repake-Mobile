@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/DummyData.dart';
 import '../models/ProductModel.dart';
 
 /// Controller untuk Halaman Detail Produk (MVC Architecture).
@@ -11,7 +12,7 @@ class ProductDetailController extends ChangeNotifier {
     ProductModel? initialProduct,
     List<ProductModel>? similarProducts,
   }) {
-    _product = initialProduct ?? createDefaultProduct();
+    _product = initialProduct ?? DummyData.defaultProduct();
     _isFavorite = _product.isFavorite;
 
     _initImages();
@@ -47,16 +48,18 @@ class ProductDetailController extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   void _initImages() {
-    final primaryImg =
-        (_product.imageUrl != null && _product.imageUrl!.isNotEmpty)
-            ? _product.imageUrl!
-            : 'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-
-    _images = [
-      primaryImg,
-      'https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1595044426077-d36d9236d54a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    ];
+    // Prioritas: Gunakan product.images dari DummyData (min 3 images)
+    // Fallback: Gunakan primary image jika images kosong
+    if (_product.galleryImages.isNotEmpty) {
+      _images = List.from(_product.galleryImages);
+    } else {
+      // Fallback: generate placeholder images jika benar-benar kosong
+      _images = [
+        'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1595044426077-d36d9236d54a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      ];
+    }
   }
 
   void _initSimilarProducts(List<ProductModel>? products) {
@@ -65,21 +68,10 @@ class ProductDetailController extends ChangeNotifier {
       return;
     }
 
-    _similarProducts = List.generate(
-      4,
-      (index) => ProductModel(
-        id: 'sim_${index + 1}',
-        title: 'Keyboad pemda bekas\nreza auditore asli no hoax',
-        price: 670000,
-        sellerName: 'Midou_kun',
-        location: 'Bekasi',
-        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-        condition: 'Dirawat dengan baik',
-        status: 'Dijual',
-        imageUrl:
-            'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      ),
-    );
+    // Ambil 4 produk dari DummyData untuk "Similar Products"
+    _similarProducts = DummyData.products.take(4).map((p) {
+      return p.copyWith(id: 'sim_${p.id}');
+    }).toList();
   }
 
   // ---------------------------------------------------------------------------
@@ -123,23 +115,6 @@ class ProductDetailController extends ChangeNotifier {
           RegExp(r'\B(?=(\d{3})+(?!\d))'),
           (_) => '.',
         );
-  }
-
-  /// Data produk default jika tidak ada parameter yang dipassing
-  static ProductModel createDefaultProduct() {
-    return ProductModel(
-      id: 'default_product_detail',
-      title: 'Keyboard pemda bekas reza\nauditore asli no hoax',
-      price: 670000,
-      sellerName: 'Midou_kun',
-      location: 'Bekasi',
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Dirawat dengan baik',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      isFavorite: false,
-    );
   }
 
   @override

@@ -33,17 +33,18 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surfaceElevated, // Warna background kartu
+      color: AppColors.surfaceElevated,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12), // Lengkungan sudut kartu
+        borderRadius: BorderRadius.circular(12),
         side: const BorderSide(color: AppColors.borderDefault),
       ),
-      clipBehavior: Clip.antiAlias, // Memotong child agar ikutan melengkung
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap, // Efek gelombang (ripple) saat kartu diklik
+        onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(8), // Jarak dalam kartu
+          padding: const EdgeInsets.all(8),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 1. Informasi Penjual (Foto, Nama, Lokasi, Titik Tiga)
@@ -61,36 +62,10 @@ class ProductCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
 
-              // 3. Judul Produk
-              Text(
-                product.title,
-                maxLines: titleMaxLines,
-                overflow: TextOverflow
-                    .ellipsis, // Bikin teks jadi '...' kalau kepanjangan
-                style: AppTextStyles.body().copyWith(
-                  fontSize: 13.5,
-                  height: 1.3,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 4),
-
-              // 4. Harga Produk
-              Text(
-                product.priceLabel,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.h5().copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              // 5. Chip/Badge Kondisi Barang (misal: "Dirawat dengan baik")
-              Align(
-                alignment: Alignment.centerLeft,
-                child: _ConditionChip(label: product.condition),
+              // 3. Label Section (FIXED HEIGHT untuk konsistensi positioning)
+              _LabelSection(
+                product: product,
+                titleMaxLines: titleMaxLines,
               ),
             ],
           ),
@@ -215,8 +190,8 @@ class _ImageWithOverlay extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // 1. Gambar Utama Produk
-            _ProductImage(url: product.imageUrl),
+            // 1. Gambar Utama Produk (prioritas: images[0] > imageUrl)
+            _ProductImage(product: product),
 
             // 2. Badge Status (Melayang di Pojok Kiri Atas Gambar)
             Positioned(
@@ -280,9 +255,11 @@ class _ImageWithOverlay extends StatelessWidget {
 /// Menampilkan gambar dari URL internet, atau tampilan kotak abu-abu kalau
 /// gambarnya kosong / gagal dimuat.
 class _ProductImage extends StatelessWidget {
-  const _ProductImage({this.url});
+  const _ProductImage({required this.product});
 
-  final String? url;
+  final ProductModel product;
+
+  String? get url => product.primaryImage;
 
   // Tampilan cadangan kalau gambar tidak ada / error
   Widget _placeholder() => Container(
@@ -294,10 +271,27 @@ class _ProductImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url == null) return _placeholder();
+    if (url == null || url!.isEmpty) return _placeholder();
     return Image.network(
       url!,
-      fit: BoxFit.cover, // Memastikan gambar memenuhi area tanpa gepeng
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          color: AppColors.neutral200,
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(AppColors.neutral400),
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          ),
+        );
+      },
       errorBuilder: (_, __, ___) => _placeholder(),
     );
   }
@@ -329,6 +323,64 @@ class _ConditionChip extends StatelessWidget {
           color: AppColors.textSecondary,
         ),
       ),
+    );
+  }
+}
+
+/// ---------------------------------------------------------------------------
+/// LABEL SECTION - Judul, Harga, Kondisi (FIXED HEIGHT)
+/// ---------------------------------------------------------------------------
+/// Section ini dibuat terpisah dengan fixed height untuk memastikan
+/// label selalu di posisi yang sama terlepas dari ukuran image.
+class _LabelSection extends StatelessWidget {
+  const _LabelSection({
+    required this.product,
+    required this.titleMaxLines,
+  });
+
+  final ProductModel product;
+  final int titleMaxLines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Judul Produk (fixed height dengan maxLines)
+        SizedBox(
+          height: titleMaxLines * 17.5, // Approximate line height
+          child: Text(
+            product.title,
+            maxLines: titleMaxLines,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.body().copyWith(
+              fontSize: 13.5,
+              height: 1.3,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+
+        // Harga Produk
+        Text(
+          product.priceLabel,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTextStyles.h5().copyWith(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 8),
+
+        // Chip Kondisi Barang - ALWAYS LEFT ALIGNED
+        Align(
+          alignment: Alignment.centerLeft,
+          child: _ConditionChip(label: product.condition),
+        ),
+      ],
     );
   }
 }

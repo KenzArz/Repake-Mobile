@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../models/DummyData.dart';
 import '../models/ProductModel.dart';
-import 'ProductDetailController.dart';
-
-export 'ProductDetailController.dart';
 
 /// Controller utama untuk entitas Produk (MVC Architecture).
 ///
@@ -13,9 +11,8 @@ class ProductController extends ChangeNotifier {
   ProductController._();
   static final ProductController instance = ProductController._();
 
-  final List<ProductModel> _products = [
-    ProductDetailController.createDefaultProduct(),
-  ];
+  // Gunakan DummyData sebagai sumber data awal
+  final List<ProductModel> _products = List.from(DummyData.products);
 
   List<ProductModel> get products => List.unmodifiable(_products);
 

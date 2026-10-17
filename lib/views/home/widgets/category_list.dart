@@ -50,8 +50,16 @@ class _CategoryItem extends StatelessWidget {
             CircleAvatar(
               radius: 32,
               backgroundColor: AppColors.neutral200,
-              backgroundImage: category.iconUrl != null
-                  ? NetworkImage(category.iconUrl!)
+              backgroundImage:
+                  category.iconUrl != null && category.iconUrl!.isNotEmpty
+                      ? NetworkImage(category.iconUrl!)
+                      : null,
+              child: category.iconUrl == null || category.iconUrl!.isEmpty
+                  ? Icon(
+                      Icons.category_outlined,
+                      size: 28,
+                      color: AppColors.neutral500,
+                    )
                   : null,
             ),
             const SizedBox(height: 8),

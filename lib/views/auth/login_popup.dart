@@ -109,7 +109,7 @@ class _LoginPopupDialogState extends State<LoginPopupDialog> {
                 BoxShadow(
                   color: AppColors.neutral900.withValues(alpha: 0.1),
                   blurRadius: 24,
-                  offset: Offset(0, 10),
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),

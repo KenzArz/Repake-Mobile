@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/ChatModel.dart';
-import '../../models/ProductModel.dart';
+import '../../models/DummyData.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
@@ -39,23 +39,22 @@ class _ChatListScreenState extends State<ChatListScreen> {
   late final List<ChatModel> _allChats = _dummyChats();
 
   /// Generate dummy chat conversations sesuai wireframe.
+  /// Menggunakan produk dari DummyData untuk konsistensi.
   List<ChatModel> _dummyChats() {
     final now = DateTime.now();
+    final products = DummyData.products;
+
+    // Pastikan ada minimal 5 produk di DummyData
+    if (products.length < 5) {
+      throw StateError(
+          'DummyData.products harus memiliki minimal 5 produk untuk chat list');
+    }
 
     return [
-      // Chat 1: Keyboard pemda (pembeli = current user, ada offer pending)
+      // Chat 1: Keyboard (pembeli = current user, ada offer pending)
       ChatModel(
         id: 'chat1',
-        product: ProductModel(
-          id: 'p1',
-          title: 'Keyboad pemda bekas reza auditore asli no hoax',
-          price: 670000,
-          sellerName: 'Midou_kun',
-          location: 'Bekasi',
-          createdAt: now.subtract(const Duration(hours: 3)),
-          condition: 'Dirawat dengan baik',
-          imageUrl: null,
-        ),
+        product: products[0], // Keyboard Mechanical
         sellerId: 'seller_midou',
         sellerName: 'Midou_kun',
         buyerId: _currentUserId, // Current user adalah pembeli
@@ -65,19 +64,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
         unreadCount: 0,
       ),
 
-      // Chat 2: Sepatu adidas (current user = pembeli, offer rejected)
+      // Chat 2: Sepatu (current user = pembeli, offer rejected)
       ChatModel(
         id: 'chat2',
-        product: ProductModel(
-          id: 'p2',
-          title: 'Sepatu adidas asli ori real warna hitam ukuran a4',
-          price: 500000,
-          sellerName: 'Midou_kun',
-          location: 'Bekasi',
-          createdAt: now.subtract(const Duration(days: 1)),
-          condition: 'Seperti baru',
-          imageUrl: null,
-        ),
+        product: products[1], // Sepatu Sneakers Nike
         sellerId: 'seller_midou',
         sellerName: 'Midou_kun',
         buyerId: _currentUserId,
@@ -87,19 +77,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
         unreadCount: 1,
       ),
 
-      // Chat 3: Kemeja pria (current user = pembeli, offer accepted)
+      // Chat 3: Jaket (current user = pembeli, offer accepted)
       ChatModel(
         id: 'chat3',
-        product: ProductModel(
-          id: 'p3',
-          title: 'Kemeja pria warna merah motif kotak lengan panjang',
-          price: 150000,
-          sellerName: 'Midou_kun',
-          location: 'Bekasi',
-          createdAt: now.subtract(const Duration(days: 2)),
-          condition: 'Kondisi bagus',
-          imageUrl: null,
-        ),
+        product: products[2], // Jaket Denim Vintage
         sellerId: 'seller_midou',
         sellerName: 'Midou_kun',
         buyerId: _currentUserId,
@@ -109,19 +90,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
         unreadCount: 0,
       ),
 
-      // Chat 4: Laptop gaming (current user = penjual, ada offer masuk)
+      // Chat 4: Kamera (current user = penjual, ada offer masuk)
       ChatModel(
         id: 'chat4',
-        product: ProductModel(
-          id: 'p4',
-          title: 'Laptop gaming ROG Strix bekas pemakaian pribadi',
-          price: 12000000,
-          sellerName: 'Anda',
-          location: 'Jakarta',
-          createdAt: now.subtract(const Duration(days: 3)),
-          condition: 'Mulus terawat',
-          imageUrl: null,
-        ),
+        product: products[3], // Kamera DSLR Canon
         sellerId: _currentUserId, // Current user adalah penjual
         sellerName: 'Anda',
         buyerId: 'buyer_reza',
@@ -131,19 +103,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
         unreadCount: 2,
       ),
 
-      // Chat 5: HP Samsung (current user = penjual, belum ada offer)
+      // Chat 5: Headphone (current user = penjual, belum ada offer)
       ChatModel(
         id: 'chat5',
-        product: ProductModel(
-          id: 'p5',
-          title: 'Samsung Galaxy S23 Ultra 256GB hitam',
-          price: 15000000,
-          sellerName: 'Anda',
-          location: 'Jakarta',
-          createdAt: now.subtract(const Duration(days: 1)),
-          condition: 'Baru 1 bulan pakai',
-          imageUrl: null,
-        ),
+        product: products[4], // Headphone Sony WH-1000XM4
         sellerId: _currentUserId,
         sellerName: 'Anda',
         buyerId: 'buyer_aldi',
@@ -451,18 +414,45 @@ class _ChatListTile extends StatelessWidget {
 
             const SizedBox(width: 8),
 
-            // Product thumbnail (tanpa badge)
+            // Product thumbnail dengan gambar dari DummyData
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Container(
                 width: 48,
                 height: 48,
                 color: AppColors.neutral200,
-                child: const Icon(
-                  Icons.image_outlined,
-                  size: 24,
-                  color: AppColors.neutral400,
-                ),
+                child: (chat.product.primaryImage?.isNotEmpty ?? false)
+                    ? Image.network(
+                        chat.product.primaryImage!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (_, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (_, __, ___) => const Icon(
+                          Icons.image_outlined,
+                          size: 24,
+                          color: AppColors.neutral400,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.image_outlined,
+                        size: 24,
+                        color: AppColors.neutral400,
+                      ),
               ),
             ),
           ],

@@ -67,12 +67,46 @@ class _BannerSliderState extends State<BannerSlider> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: widget.imageUrls.isEmpty
-                  ? Container(color: AppColors.neutral300)
+                  ? Container(
+                      color: AppColors.neutral300,
+                      child: Center(
+                        child: Icon(
+                          Icons.image_outlined,
+                          size: 48,
+                          color: AppColors.neutral500,
+                        ),
+                      ),
+                    )
                   : Image.network(
                       widget.imageUrls[i],
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
-                          Container(color: AppColors.neutral300),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(
+                          color: AppColors.neutral200,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.neutral400),
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (_, __, ___) => Container(
+                        color: AppColors.neutral300,
+                        child: Center(
+                          child: Icon(
+                            Icons.broken_image_outlined,
+                            size: 48,
+                            color: AppColors.neutral500,
+                          ),
+                        ),
+                      ),
                     ),
             ),
           );
