@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/BannerModel.dart';
+import '../../models/DummyData.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 
@@ -14,7 +15,7 @@ import '../../theme/app_text_styles.dart';
 ///   - Hapus banner   : ikon tempat sampah
 ///   - Ubah urutan    : tahan ikon ⠿ di kiri lalu geser
 ///
-/// Data masih disimpan di memori (hilang saat aplikasi ditutup).
+/// Banner ini akan tampil di landing page user sesuai urutan & status aktif.
 class BannerManageScreen extends StatefulWidget {
   const BannerManageScreen({super.key});
 
@@ -27,14 +28,8 @@ class _BannerManageScreenState extends State<BannerManageScreen>
   @override
   bool get wantKeepAlive => true; // jangan dibuang saat pindah tab
 
-  // TODO: ganti dengan data dari database / controller.
-  // Nanti BannerSlider di beranda juga harus membaca daftar ini
-  // (hanya yang isActive == true, sesuai urutan).
-  final List<BannerModel> _banners = [
-    const BannerModel(id: 'b1', title: 'Promo awal semester'),
-    const BannerModel(id: 'b2', title: 'Cara jual barang'),
-    const BannerModel(id: 'b3', title: 'Banner lama', isActive: false),
-  ];
+  // Gunakan data dari DummyData (sinkron dengan landing page!)
+  final List<BannerModel> _banners = List.from(DummyData.banners);
 
   /// Buka form tambah (initial == null) atau ubah (initial berisi banner).
   Future<void> _openForm({BannerModel? initial}) async {
@@ -137,8 +132,8 @@ class _BannerManageScreenState extends State<BannerManageScreen>
           Text(
             'Banner tampil di beranda sesuai urutan di sini. '
             'Tahan ikon di kiri lalu geser untuk mengubah urutan.',
-            style: AppTextStyles.label()
-                .copyWith(color: AppColors.textSecondary),
+            style:
+                AppTextStyles.label().copyWith(color: AppColors.textSecondary),
           ),
           const SizedBox(height: 12),
 
@@ -293,19 +288,32 @@ class _BannerImage extends StatelessWidget {
   Widget _placeholder() => Container(
         color: AppColors.neutral300,
         child: const Center(
-          child: Icon(Icons.image_outlined, color: AppColors.neutral500),
+          child:
+              Icon(Icons.image_outlined, size: 24, color: AppColors.neutral500),
         ),
       );
 
   @override
   Widget build(BuildContext context) {
     final p = path;
-    if (p == null) return _placeholder();
+    if (p == null || p.isEmpty) return _placeholder();
 
     if (p.startsWith('http')) {
       return Image.network(
         p,
         fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            color: AppColors.neutral200,
+            child: Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.neutral400),
+              ),
+            ),
+          );
+        },
         errorBuilder: (_, __, ___) => _placeholder(),
       );
     }
@@ -389,7 +397,8 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
   Widget build(BuildContext context) {
     return Padding(
       // Dorong isi ke atas saat keyboard muncul.
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: Form(
@@ -452,10 +461,9 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                                   ),
                                   child: Text(
                                     'Ganti gambar',
-                                    style: AppTextStyles.caption()
-                                        .copyWith(
-                                          color: AppColors.textOnDark,
-                                        ),
+                                    style: AppTextStyles.caption().copyWith(
+                                      color: AppColors.textOnDark,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -490,11 +498,11 @@ class _BannerFormSheetState extends State<_BannerFormSheet> {
                   filled: true,
                   fillColor: AppColors.surfaceElevated,
                   hintText: 'Contoh: Promo awal semester',
-                  hintStyle: AppTextStyles.body()
-                      .copyWith(color: AppColors.textMuted),
+                  hintStyle:
+                      AppTextStyles.body().copyWith(color: AppColors.textMuted),
                   helperText: 'Hanya terlihat oleh admin.',
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 14),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide:

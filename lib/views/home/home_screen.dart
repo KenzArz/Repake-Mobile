@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/AuthController.dart';
-import '../../models/CategoryModel.dart';
+import '../../models/DummyData.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_text_styles.dart';
 import '../../utils/navigation_helper.dart';
@@ -22,33 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
 
-  // TODO: ganti dengan data dari product_controller / category_controller.
-  final _categories = const [
-    CategoryModel(id: 'c1', name: 'Elektronik'),
-    CategoryModel(id: 'c2', name: 'Pakaian'),
-    CategoryModel(id: 'c3', name: 'Perabot'),
-    CategoryModel(id: 'c4', name: 'Olahraga'),
-    CategoryModel(id: 'c5', name: 'Buku'),
-    CategoryModel(id: 'c6', name: 'Lainnya'),
-  ];
-  late List<ProductModel> _nearby = _dummyProducts('near', 4);
-  late List<ProductModel> _latest = _dummyProducts('new', 6);
+  // Kategori produk dari DummyData (no more hardcoded!)
+  final _categories = DummyData.categories;
 
-  static List<ProductModel> _dummyProducts(String prefix, int n) {
-    return List.generate(
-      n,
-      (i) => ProductModel(
-        id: '$prefix$i',
-        title: 'Femboy imup ganas',
-        price: 670000,
-        sellerName: 'Midou_kun',
-        location: 'Bekasi',
-        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-        condition: 'Dirawat dengan baik',
-        status: 'Dijual',
-      ),
-    );
-  }
+  // Ambil data dari centralized DummyData
+  late List<ProductModel> _nearby = DummyData.productsNearby(4);
+  late List<ProductModel> _latest = DummyData.productsLatest(6);
 
   @override
   void dispose() {
@@ -112,11 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 slivers: [
-                  // Banner
-                  const SliverToBoxAdapter(
+                  // Banner dengan data dari DummyData
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: BannerSlider(),
+                      padding: const EdgeInsets.only(top: 12),
+                      child: BannerSlider(
+                        imageUrls: DummyData.bannerImageUrls,
+                      ),
                     ),
                   ),
 
@@ -131,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  // Dekat kamu (scroll ke samping)
+                  // Dekat kamu (scroll ke samping - FIXED WIDTH 175)
                   SliverToBoxAdapter(child: _sectionTitle('Ada di Dekat Kamu')),
                   SliverToBoxAdapter(
                     child: SingleChildScrollView(
@@ -143,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             for (var i = 0; i < _nearby.length; i++) ...[
                               if (i > 0) const SizedBox(width: 12),
+                              // FIXED: Width tetap 175px untuk konsistensi
                               SizedBox(width: 175, child: _card(_nearby[i])),
                             ],
                           ],

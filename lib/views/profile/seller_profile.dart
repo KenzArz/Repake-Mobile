@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../controllers/AuthController.dart';
 import '../../controllers/ProfileController.dart';
+import '../../models/DummyData.dart';
 import '../../models/ProductModel.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
@@ -97,68 +98,9 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
     );
   }
 
-  late final List<ProductModel> _sellerProducts = [
-    ProductModel(
-      id: 'sel_1',
-      title: 'Femboy imup ganas',
-      price: 670000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Dirawat dengan baik',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_2',
-      title: 'Kemeja pria warna merah motif kotak lengan panjang',
-      price: 170000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Dirawat dengan baik',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_3',
-      title: 'Sepatu adidas asli ori real warna hitam ukuran a4',
-      price: 250000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Jarang Digunakan',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_4',
-      title: 'Keyboard pemda bekas reza auditore asli no hoax',
-      price: 670000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Dirawat dengan baik',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-    ProductModel(
-      id: 'sel_5',
-      title: 'Samsung galaxy ear buds',
-      price: 100000,
-      sellerName: widget.sellerName,
-      location: widget.location,
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      condition: 'Dirawat dengan baik',
-      status: 'Dijual',
-      imageUrl:
-          'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    ),
-  ];
+  // Gunakan DummyData untuk seller products (no more hardcoded!)
+  late final List<ProductModel> _sellerProducts =
+      DummyData.productsForSeller(widget.sellerName, widget.location);
 
   @override
   Widget build(BuildContext context) {
@@ -647,11 +589,10 @@ class _SellerProfilePageState extends State<SellerProfilePage> {
               ),
               const SizedBox(height: 12),
               ListTile(
-                leading:
-                    const Icon(
-                      Icons.share_outlined,
-                      color: AppColors.textPrimary,
-                    ),
+                leading: const Icon(
+                  Icons.share_outlined,
+                  color: AppColors.textPrimary,
+                ),
                 title: const Text('Bagikan Produk'),
                 onTap: () {
                   Navigator.pop(ctx);

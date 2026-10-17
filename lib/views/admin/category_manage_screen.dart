@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/CategoryModel.dart';
+import '../../models/DummyData.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import 'category_form_popup.dart';
@@ -20,21 +21,8 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
   @override
   bool get wantKeepAlive => true;
 
-  // TODO: ganti dengan data dari admin_controller (database).
-  final List<CategoryModel> _categories = _dummyCategories();
-
-  static List<CategoryModel> _dummyCategories() {
-    return [
-      const CategoryModel(id: 'c1', name: 'Elektronik'),
-      const CategoryModel(id: 'c2', name: 'Fashion'),
-      const CategoryModel(id: 'c3', name: 'Furniture'),
-      const CategoryModel(id: 'c4', name: 'Olahraga'),
-      const CategoryModel(id: 'c5', name: 'Kendaraan'),
-      const CategoryModel(id: 'c6', name: 'Buku & Alat Tulis'),
-      const CategoryModel(id: 'c7', name: 'Mainan & Hobi'),
-      const CategoryModel(id: 'c8', name: 'Kesehatan & Kecantikan'),
-    ];
-  }
+  // Gunakan data dari DummyData (no more hardcoded!)
+  final List<CategoryModel> _categories = List.from(DummyData.categories);
 
   void _showAddCategoryDialog() {
     showCategoryFormPopup(
@@ -172,6 +160,7 @@ class _CategoryManageScreenState extends State<CategoryManageScreen>
 
 // Lebar kolom tetap
 const double _colNo = 50;
+const double _colIcon = 50;
 const double _colGap = 12;
 const double _colActions = 120;
 
@@ -247,6 +236,8 @@ class _HeaderRow extends StatelessWidget {
         children: [
           SizedBox(width: _colNo, child: Text('No', style: style)),
           const SizedBox(width: _colGap),
+          SizedBox(width: _colIcon, child: Text('Icon', style: style)),
+          const SizedBox(width: _colGap),
           Expanded(child: Text('Nama Kategori', style: style)),
           const SizedBox(width: _colGap),
           SizedBox(
@@ -291,6 +282,17 @@ class _CategoryRow extends StatelessWidget {
           ),
           const SizedBox(width: _colGap),
 
+          // Icon Category
+          SizedBox(
+            width: _colIcon,
+            height: _colIcon,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: _CategoryIcon(iconUrl: category.iconUrl),
+            ),
+          ),
+          const SizedBox(width: _colGap),
+
           // Nama Kategori
           Expanded(
             child: Text(
@@ -329,6 +331,45 @@ class _CategoryRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Icon kategori kecil
+class _CategoryIcon extends StatelessWidget {
+  const _CategoryIcon({this.iconUrl});
+
+  final String? iconUrl;
+
+  Widget _placeholder() => Container(
+        color: AppColors.neutral200,
+        child: const Icon(
+          Icons.category_outlined,
+          size: 24,
+          color: AppColors.neutral400,
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    if (iconUrl == null || iconUrl!.isEmpty) return _placeholder();
+
+    return Image.network(
+      iconUrl!,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          color: AppColors.neutral200,
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.neutral400),
+            ),
+          ),
+        );
+      },
+      errorBuilder: (_, __, ___) => _placeholder(),
     );
   }
 }

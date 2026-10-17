@@ -9,6 +9,7 @@ class ProductModel {
     required this.condition,
     this.status = 'Dijual',
     this.imageUrl,
+    this.images = const [],
     this.sellerAvatarUrl,
     this.isFavorite = false,
   });
@@ -22,8 +23,25 @@ class ProductModel {
   final DateTime createdAt;
   final String condition; // contoh: "Dirawat dengan baik"
   final String status; // contoh: "Dijual"
+
+  /// Primary image URL (untuk backward compatibility dengan product card)
   final String? imageUrl;
+
+  /// Multiple images untuk gallery di detail page (min 3 images recommended)
+  /// Jika kosong, akan fallback ke [imageUrl]
+  final List<String> images;
+
   final bool isFavorite;
+
+  /// Helper: Ambil primary image (prioritas: images[0] > imageUrl)
+  String? get primaryImage => images.isNotEmpty ? images.first : imageUrl;
+
+  /// Helper: Ambil semua images untuk gallery (min 1, max 5)
+  List<String> get galleryImages {
+    if (images.isNotEmpty) return images;
+    if (imageUrl != null && imageUrl!.isNotEmpty) return [imageUrl!];
+    return [];
+  }
 
   ProductModel copyWith({
     String? id,
@@ -36,6 +54,7 @@ class ProductModel {
     String? condition,
     String? status,
     String? imageUrl,
+    List<String>? images,
     bool? isFavorite,
   }) {
     return ProductModel(
@@ -49,6 +68,7 @@ class ProductModel {
       condition: condition ?? this.condition,
       status: status ?? this.status,
       imageUrl: imageUrl ?? this.imageUrl,
+      images: images ?? this.images,
       isFavorite: isFavorite ?? this.isFavorite,
     );
   }
